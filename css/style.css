@@ -41,6 +41,29 @@ body {
 .sidebar-nav::-webkit-scrollbar { width: 8px; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: #bdc1c6; border-radius: 4px; }
 
+.fab-container { position: relative; margin: 0 var(--sidebar-header-h-padding) 8px; }
+.fab-button {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    height: 40px; padding: 0 16px; border-radius: 20px;
+    background: var(--primary-color); color: #fff; font-weight: 500; font-size: 0.875rem;
+    border: none; cursor: pointer; width: calc(100% - var(--sidebar-header-h-padding)*2);
+}
+.fab-button .material-icons-outlined { font-size: 24px; }
+.fab-button:hover { background: var(--primary-hover-color); }
+.fab-dropdown {
+    display: none; position: absolute; top: 48px; left: 0;
+    background: #fff; border: 1px solid var(--border-color); border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(60,64,67,0.18), 0 1.5px 4px rgba(60,64,67,0.10);
+    padding: 8px 0; min-width: 180px; z-index: 1000;
+}
+.fab-dropdown .dropdown-item {
+    padding: 10px 16px; cursor: pointer; font-size: 0.9rem; color: var(--text-color);
+    border-radius: 4px;
+}
+.fab-dropdown .dropdown-item:hover { background: var(--primary-light-color); color: var(--primary-color); }
+.sidebar.collapsed .fab-button { width: 48px; padding: 0; justify-content: center; }
+.sidebar.collapsed .fab-button .fab-text { display: none; }
+
 .sidebar-nav .menu-group { margin-bottom: 8px; }
 .sidebar-nav .menu-group:last-child { margin-bottom: 0; }
 .sidebar-nav .menu-group-title {

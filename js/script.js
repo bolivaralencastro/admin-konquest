@@ -106,6 +106,8 @@ for (const sectionKey in allTableColumns) { visibleColumnsState[sectionKey] = {}
 const sidebar = document.getElementById('sidebar');
 const collapseButton = document.getElementById('collapseButton');
 const exitAdminButton = document.getElementById('exitAdminButton');
+const addFabButton = document.getElementById('addFabButton');
+const addFabDropdown = document.getElementById('addFabDropdown');
 const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
 const contentPanel = document.getElementById('contentPanel');
 let currentActiveMenuSection = 'gestao-conteudos';
@@ -138,6 +140,27 @@ function attachHeaderSearchListener(sectionId) {
 function handleHeaderOnCollapse() {}
 collapseButton.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); handleHeaderOnCollapse(); });
 exitAdminButton.addEventListener('click', () => { alert('Saindo da Área Administrativa...'); });
+if(addFabButton && addFabDropdown) {
+    addFabButton.addEventListener('click', ev => {
+        ev.stopPropagation();
+        const isOpen = addFabDropdown.style.display === 'block';
+        addFabDropdown.style.display = isOpen ? 'none' : 'block';
+        const rect = addFabButton.getBoundingClientRect();
+        addFabDropdown.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+        addFabDropdown.style.left = rect.left + 'px';
+    });
+    document.addEventListener('click', ev => {
+        if(!addFabDropdown.contains(ev.target) && ev.target !== addFabButton) {
+            addFabDropdown.style.display = 'none';
+        }
+    });
+    addFabDropdown.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', () => {
+            alert('Criar ' + item.textContent);
+            addFabDropdown.style.display = 'none';
+        });
+    });
+}
 
 navLinks.forEach(link => {
     link.addEventListener('click', function(e) {
