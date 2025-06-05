@@ -115,7 +115,7 @@ function renderGenericTable(sectionId, data, allColsDefinition) {
     let placeholderText = "Buscar"; let sectionFriendlyName = sectionId.replace(/matriculas_|-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()).trim(); placeholderText = `Buscar em ${sectionFriendlyName}...`;
     const itemIconName = sectionIcons[sectionId] || 'article';
     const columnsToRenderInHeader = allColsDefinition.filter(col => { if (col.key === 'acoes') return false; return visibleColumnsState[sectionId] ? visibleColumnsState[sectionId][col.key] !== false : true; });
-    let tableHTML = `<div class="controls"><button class="filter-button" title="Filtrar" onclick="alert('Filtro clicado para ${sectionFriendlyName}')"><span class="material-icons-outlined">filter_list</span></button></div><table id="table-${sectionId}"><thead><tr><th class="cell-checkbox"><input type="checkbox" class="table-checkbox" id="selectAll-${sectionId}" title="Selecionar Todos"></th>`;
+    let tableHTML = `<table id="table-${sectionId}"><thead><tr><th class="cell-checkbox"><input type="checkbox" class="table-checkbox" id="selectAll-${sectionId}" title="Selecionar Todos"></th>`;
     columnsToRenderInHeader.forEach(col => { tableHTML += `<th>${col.label}</th>`; });
     tableHTML += `<th style="text-align: right; position:relative;"><div class="table-header-actions"><button class="btn-icon" id="tableSettingsBtn-${sectionId}" title="Configurar Colunas"><span class="material-icons-outlined">settings</span></button>${renderColumnToggleDropdown(sectionId, allColsDefinition)}</div></th>`;
     tableHTML += `</tr></thead><tbody>`;
@@ -125,7 +125,7 @@ function renderGenericTable(sectionId, data, allColsDefinition) {
 }
 
 function renderContentTabs(sectionType) { /* ... (Idêntico) ... */ }
-renderContentTabs = function(sectionType) { let contentTabsConfig = []; let defaultTabId = ''; if (sectionType === 'gestao-conteudos') { contentTabsConfig = [ { id: 'cursos', label: 'Cursos', icon: 'school' }, { id: 'trilhas', label: 'Trilhas', icon: 'signpost' }, { id: 'eventos', label: 'Eventos', icon: 'event' }, { id: 'canais', label: 'Canais', icon: 'tv' }, { id: 'pulses', label: 'Pulses', icon: 'campaign' } ]; defaultTabId = 'cursos'; } else if (sectionType === 'matriculas') { contentTabsConfig = [ { id: 'matriculas_cursos', label: 'Cursos', icon: 'school' }, { id: 'matriculas_trilhas', label: 'Trilhas', icon: 'signpost' }, { id: 'matriculas_eventos', label: 'Eventos', icon: 'event' } ]; defaultTabId = 'matriculas_cursos'; } const isValidCurrentTab = contentTabsConfig.some(tab => tab.id === currentActiveContentTab); if (!isValidCurrentTab && defaultTabId) { currentActiveContentTab = defaultTabId; } let html = `<div class="content-tabs-container"> <div class="content-tabs">`; contentTabsConfig.forEach(tab => { html += `<div class="tab-item ${tab.id === currentActiveContentTab ? 'active' : ''}" data-tab="${tab.id}"><span class="material-icons-outlined nav-icon-md">${tab.icon}</span> ${tab.label}</div>`; }); html += `</div> <div class="content-tab-actions"><button class="header-button" id="contentCreateButton" title="Criar Novo"><span class="material-icons-outlined">add</span></button></div> </div>`; html += '<div class="tab-content-area">'; contentTabsConfig.forEach(tab => { html += `<div class="tab-content ${tab.id === currentActiveContentTab ? 'active' : ''}" id="tab-content-${tab.id}"></div>`; }); html += '</div>'; return html; }
+renderContentTabs = function(sectionType) { let contentTabsConfig = []; let defaultTabId = ''; if (sectionType === 'gestao-conteudos') { contentTabsConfig = [ { id: 'cursos', label: 'Cursos', icon: 'school' }, { id: 'trilhas', label: 'Trilhas', icon: 'signpost' }, { id: 'eventos', label: 'Eventos', icon: 'event' }, { id: 'canais', label: 'Canais', icon: 'tv' }, { id: 'pulses', label: 'Pulses', icon: 'campaign' } ]; defaultTabId = 'cursos'; } else if (sectionType === 'matriculas') { contentTabsConfig = [ { id: 'matriculas_cursos', label: 'Cursos', icon: 'school' }, { id: 'matriculas_trilhas', label: 'Trilhas', icon: 'signpost' }, { id: 'matriculas_eventos', label: 'Eventos', icon: 'event' } ]; defaultTabId = 'matriculas_cursos'; } const isValidCurrentTab = contentTabsConfig.some(tab => tab.id === currentActiveContentTab); if (!isValidCurrentTab && defaultTabId) { currentActiveContentTab = defaultTabId; } let html = `<div class="content-tabs-container"> <div class="content-tabs">`; contentTabsConfig.forEach(tab => { html += `<div class="tab-item ${tab.id === currentActiveContentTab ? 'active' : ''}" data-tab="${tab.id}"><span class="material-icons-outlined nav-icon-md">${tab.icon}</span> ${tab.label}</div>`; }); html += `</div>  </div>`; html += '<div class="tab-content-area">'; contentTabsConfig.forEach(tab => { html += `<div class="tab-content ${tab.id === currentActiveContentTab ? 'active' : ''}" id="tab-content-${tab.id}"></div>`; }); html += '</div>'; return html; }
 
 function renderIntegrationTabs() { /* ... (Idêntico) ... */ }
 renderIntegrationTabs = function() { const filterTabsConfig = [ { id: 'todas', label: `Todas (${integrationsData.length})` }, { id: 'ativas', label: `Ativas (${integrationsData.filter(i => i.active).length})` }, { id: 'inativas', label: `Inativas (${integrationsData.filter(i => !i.active).length})` } ]; let html = `<div class="content-tabs-container"><div class="content-tabs">`; filterTabsConfig.forEach(tab => { html += `<div class="tab-item ${tab.id === currentIntegrationFilter ? 'active' : ''}" data-filter="${tab.id}">${tab.label}</div>`; }); html += `</div><div class="content-tab-actions"><button class="header-button" id="newIntegrationButton" title="Nova Integração"><span class="material-icons-outlined">add</span></button></div></div>`; html += `<div class="controls" style="padding: 12px 16px 12px 24px; border-bottom: 1px solid var(--border-color);"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" placeholder="Buscar integrações..." id="search-integrations"></div></div>`; html += '<div class="integrations-grid-wrapper"><div class="integrations-grid" id="integrationsGrid"></div></div>'; return html; }
@@ -463,32 +463,14 @@ function loadSectionContent(sectionId) {
                         <span class="material-icons-outlined">search</span>
                         <input type="text" id="header-search-${sectionId}" placeholder="Buscar...">
                     </div>
+                    <button class="filter-button" title="Filtrar" id="header-filter-${sectionId}">
+                        <span class="material-icons-outlined">filter_list</span>
+                    </button>
                 </div>
             </div>`;
         contentPanel.innerHTML = headerHtml + renderContentTabs(sectionId);
         attachHeaderSearchListener(sectionId);
         loadTabContent(currentActiveContentTab); // Carrega a aba ativa
-        const contentCreateButton = document.getElementById('contentCreateButton');
-        if (contentCreateButton) {
-            contentCreateButton.addEventListener('click', () => {
-                let createTypeFriendly = 'Item';
-                if (sectionId === 'gestao-conteudos') {
-                    switch(currentActiveContentTab) {
-                        case 'cursos': createTypeFriendly = 'Curso (Conteúdo)'; break; case 'trilhas': createTypeFriendly = 'Trilha (Conteúdo)'; break;
-                        case 'canais': createTypeFriendly = 'Canal'; break; case 'pulses': createTypeFriendly = 'Pulse'; break;
-                        case 'eventos': createTypeFriendly = 'Evento (Conteúdo)'; break;
-                        default: createTypeFriendly = currentActiveContentTab.charAt(0).toUpperCase() + currentActiveContentTab.slice(1); break;
-                    }
-                } else if (sectionId === 'matriculas') {
-                     switch(currentActiveContentTab) {
-                        case 'matriculas_cursos': createTypeFriendly = 'Matrícula em Curso'; break; case 'matriculas_trilhas': createTypeFriendly = 'Matrícula em Trilha'; break;
-                        case 'matriculas_eventos': createTypeFriendly = 'Inscrição em Evento'; break;
-                        default: createTypeFriendly = currentActiveContentTab.replace('matriculas_', '').charAt(0).toUpperCase() + currentActiveContentTab.replace('matriculas_', '').slice(1); break;
-                    }
-                }
-                alert(`Botão "+" (Abas) Clicado! Criar: ${createTypeFriendly}.`);
-            });
-        }
         document.querySelectorAll('.tab-item[data-tab]').forEach(tabElement => {
             tabElement.addEventListener('click', function() {
                 document.querySelectorAll('.tab-item[data-tab]').forEach(t => t.classList.remove('active'));
@@ -522,6 +504,9 @@ function loadSectionContent(sectionId) {
                         <span class="material-icons-outlined">search</span>
                         <input type="text" id="header-search-${sectionId}" placeholder="Buscar...">
                     </div>
+                    <button class="filter-button" title="Filtrar" id="header-filter-${sectionId}">
+                        <span class="material-icons-outlined">filter_list</span>
+                    </button>
                 </div>
                 <div class="content-header-actions">
                     <button class="header-button" id="directCreateButton" title="Criar Novo ${sectionTitle}">

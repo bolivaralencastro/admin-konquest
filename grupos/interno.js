@@ -52,7 +52,7 @@ const usuariosMock = [
 
 function renderTabelaUsuarios(filtro = '') {
     const usuarios = usuariosMock.filter(u => u.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"><button class="btn-icon" id="btnFiltroUsuarios" title="Filtros"><span class="material-icons-outlined">filter_list</span></button></div>
+    let html = `
         <table><thead><tr><th><input type="checkbox" id="checkAllUsuarios"></th><th></th><th>Nome</th><th>Cargo</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${usuarios.length === 0 ? `<tr><td colspan="6" style="text-align:center; color:#aaa;">Nenhum usuário encontrado.</td></tr>` :
             usuarios.map((u, idx) => `
@@ -73,10 +73,6 @@ function renderTabelaUsuarios(filtro = '') {
     const checks = document.querySelectorAll('.checkUsuario');
     checkAll.addEventListener('change', e => {
         checks.forEach(c => c.checked = checkAll.checked);
-    });
-    // Filtro (mock)
-    document.getElementById('btnFiltroUsuarios').addEventListener('click', () => {
-        alert('Abrir filtros (mock)');
     });
     // Menu de ações (mock)
     document.querySelectorAll('.btn-menu').forEach((btn, idx) => {
@@ -106,7 +102,7 @@ const canaisMock = [
 
 function renderTabelaCursos(filtro = '') {
     const cursos = cursosMock.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"></div>
+    let html = `
         <table><thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Status</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${cursos.length === 0 ? `<tr><td colspan="6" style="text-align:center; color:#aaa;">Nenhum curso encontrado.</td></tr>` :
             cursos.map(c => `
@@ -131,7 +127,7 @@ function renderTabelaCursos(filtro = '') {
 
 function renderTabelaTrilhas(filtro = '') {
     const trilhas = trilhasMock.filter(t => t.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"></div>
+    let html = `
         <table><thead><tr><th></th><th>Nome</th><th>Status</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${trilhas.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:#aaa;">Nenhuma trilha encontrada.</td></tr>` :
             trilhas.map(t => `
@@ -155,7 +151,7 @@ function renderTabelaTrilhas(filtro = '') {
 
 function renderTabelaEventos(filtro = '') {
     const eventos = eventosMock.filter(ev => ev.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"></div>
+    let html = `
         <table><thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Data do evento</th><th>Status</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${eventos.length === 0 ? `<tr><td colspan="7" style="text-align:center; color:#aaa;">Nenhum evento encontrado.</td></tr>` :
             eventos.map(ev => `
@@ -181,7 +177,7 @@ function renderTabelaEventos(filtro = '') {
 
 function renderTabelaCanais(filtro = '') {
     const canais = canaisMock.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"></div>
+    let html = `
         <table><thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${canais.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:#aaa;">Nenhum canal encontrado.</td></tr>` :
             canais.map(c => `
@@ -205,7 +201,7 @@ function renderTabelaCanais(filtro = '') {
 
 // Estrutura básica para as outras abas (cursos, trilhas, eventos, canais)
 function renderTabelaPlaceholder(aba, label) {
-    document.getElementById('aba-' + aba).innerHTML = `<div class="controls"><div style="padding:32px; text-align:center; color:#bbb;">Nenhum ${label} vinculado.</div></div>`;
+    document.getElementById('aba-' + aba).innerHTML = `<div style="padding:32px; text-align:center; color:#bbb;">Nenhum ${label} vinculado.</div>`;
 }
 
 // Render inicial
