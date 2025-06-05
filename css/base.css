@@ -29,7 +29,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { height: 100%; }
 body {
-    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--sidebar-bg);
     color: var(--text-color);
 }
