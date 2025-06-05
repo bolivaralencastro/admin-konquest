@@ -67,18 +67,31 @@
     border: 1px solid var(--border-color);
     border-radius: 20px;
 }
-.search-input-container .material-icons-outlined {
+.search-input-container > .material-icons-outlined {
     color: var(--sidebar-icon-color);
     margin-right: 8px;
     font-size: 22px;
 }
-.controls input[type="text"] {
+.search-input-container .filter-button .material-icons-outlined {
+    margin-right: 0;
+}
+.search-input-container input[type="text"] {
     border: none;
     background: none;
     padding: 0;
     font-size: 0.9em;
     flex-grow: 1;
     outline: none;
+}
+.search-input-container .filter-button {
+    background: none;
+    border: none;
+    color: var(--sidebar-icon-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.search-input-container .filter-button:hover {
+    background-color: rgba(0,0,0,0.08);
 }
 /* TABELA */
 table {
