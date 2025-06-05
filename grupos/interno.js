@@ -84,20 +84,20 @@ function renderTabelaUsuarios(filtro = '') {
 
 // MOCK de dados para as demais abas
 const cursosMock = [
-    { id: 1, nome: 'Onboarding XPTO', tipo: 'Interno', status: 'Publicado', data: '2 de mai. de 2024', icon: 'school' },
-    { id: 2, nome: 'Comunicação Eficaz', tipo: 'Externo', status: 'Publicado', data: '2 de mai. de 2024', icon: 'school' },
+    { id: 1, nome: 'Onboarding XPTO', tipo: 'Interno', status: 'Publicado', data: '2 de mai. de 2024', icon: 'rocket_launch' },
+    { id: 2, nome: 'Comunicação Eficaz', tipo: 'Externo', status: 'Publicado', data: '2 de mai. de 2024', icon: 'rocket_launch' },
 ];
 const trilhasMock = [
-    { id: 1, nome: 'Trilha de Liderança', status: 'Ativa', data: '2 de mai. de 2024', icon: 'signpost' },
-    { id: 2, nome: 'Trilha de Boas-vindas', status: 'Inativa', data: '2 de mai. de 2024', icon: 'signpost' },
+    { id: 1, nome: 'Trilha de Liderança', status: 'Ativa', data: '2 de mai. de 2024', icon: 'conversion_path' },
+    { id: 2, nome: 'Trilha de Boas-vindas', status: 'Inativa', data: '2 de mai. de 2024', icon: 'conversion_path' },
 ];
 const eventosMock = [
-    { id: 1, nome: 'Workshop Vendas', tipo: 'Presencial', dataEvento: '10/06/2024', status: 'Agendado', data: '2 de mai. de 2024', icon: 'event' },
-    { id: 2, nome: 'Webinar IA', tipo: 'Online', dataEvento: '15/06/2024', status: 'Concluído', data: '2 de mai. de 2024', icon: 'event' },
+    { id: 1, nome: 'Workshop Vendas', tipo: 'Presencial', dataEvento: '10/06/2024', status: 'Agendado', data: '2 de mai. de 2024', icon: 'location_on' },
+    { id: 2, nome: 'Webinar IA', tipo: 'Online', dataEvento: '15/06/2024', status: 'Concluído', data: '2 de mai. de 2024', icon: 'videocam' },
 ];
 const canaisMock = [
-    { id: 1, nome: 'Canal Novidades', tipo: 'Aberto', data: '2 de mai. de 2024', icon: 'tv' },
-    { id: 2, nome: 'Canal Design', tipo: 'Fechado', data: '2 de mai. de 2024', icon: 'tv' },
+    { id: 1, nome: 'Canal Novidades', tipo: 'Aberto', data: '2 de mai. de 2024', icon: 'hub' },
+    { id: 2, nome: 'Canal Design', tipo: 'Fechado', data: '2 de mai. de 2024', icon: 'hub' },
 ];
 
 function renderTabelaCursos(filtro = '') {
