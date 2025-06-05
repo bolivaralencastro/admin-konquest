@@ -1,29 +1,80 @@
 // --- Data (Completa com todos os tipos) ---
-const trilhasData = [ { id: 1, titulo: "Onboarding para Novos Colaboradores da Empresa XPTO", cursos: 5, status: "Publicado", iconName: 'signpost'}, { id: 2, titulo: "Desenvolvimento de Lideranças Estratégicas", cursos: 8, status: "Rascunho", iconName: 'signpost'}];
-const cursosData = [ { id: 1, titulo: "Cultura Corporativa e Valores Fundamentais", tipo: "Interno", status: "Publicado", iconName: 'school'}, { id: 2, titulo: "Comunicação Interpessoal Eficaz no Ambiente de Trabalho", tipo: "Externo", status: "Publicado", iconName: 'school'}];
-const canaisData = [ { id: 1, nome: "Canal Novidades da Empresa e Comunicados Importantes", tipo: "Aberto", criador: "Admin", seguidores: 150, iconName: 'tv' }, {id: 2, nome: "Canal Design e Inovação de Produtos", tipo: "Fechado", criador: "Ana Carolina", seguidores: 30, iconName: 'tv'}];
-const pulsesData = [ { id: 1, titulo: "Lançamento do Novo Produto Linha X Detalhado", tipo: "Video", canal: "Novidades", visualizacoes: 200, iconName: 'campaign' }, { id: 2, titulo: "Dica Rápida Y: Otimizando seu Fluxo de Trabalho Diário", tipo: "Artigo", canal: "Design", visualizacoes: 50, iconName: 'campaign'}];
-const eventosData = [ { id: 1, nome: "Workshop Avançado de Técnicas de Vendas Consultivas", data: "2024-08-15", tipo: "Presencial", status: "Agendado", iconName: 'event'}, { id: 2, nome: "Webinar sobre Inteligência Artificial Aplicada aos Negócios", data: "2024-07-30", tipo: "Online", status: "Agendado", iconName: 'event'}];
+const trilhasData = [
+    { id: 1, titulo: "Onboarding para Novos Colaboradores da Empresa XPTO", cursos: 5, status: "Publicado", iconName: 'signpost' },
+    { id: 2, titulo: "Desenvolvimento de Lideranças Estratégicas", cursos: 8, status: "Rascunho", iconName: 'signpost' },
+    { id: 3, titulo: "Trilha de Formação em Atendimento", cursos: 6, status: "Publicado", iconName: 'signpost' },
+    { id: 4, titulo: "Programa de Atualização Técnica", cursos: 4, status: "Publicado", iconName: 'signpost' },
+    { id: 5, titulo: "Trilha de Compliance e Ética", cursos: 3, status: "Rascunho", iconName: 'signpost' }
+];
+const cursosData = [
+    { id: 1, titulo: "Cultura Corporativa e Valores Fundamentais", tipo: "Interno", status: "Publicado", iconName: 'school' },
+    { id: 2, titulo: "Comunicação Interpessoal Eficaz no Ambiente de Trabalho", tipo: "Externo", status: "Publicado", iconName: 'school' },
+    { id: 3, titulo: "Introdução ao Gerenciamento de Projetos", tipo: "Interno", status: "Publicado", iconName: 'school' },
+    { id: 4, titulo: "Excel Avançado para Negócios", tipo: "Externo", status: "Rascunho", iconName: 'school' },
+    { id: 5, titulo: "Fundamentos de Marketing Digital", tipo: "Interno", status: "Publicado", iconName: 'school' }
+];
+const canaisData = [
+    { id: 1, nome: "Canal Novidades da Empresa e Comunicados Importantes", tipo: "Aberto", criador: "Admin", seguidores: 150, iconName: 'tv' },
+    { id: 2, nome: "Canal Design e Inovação de Produtos", tipo: "Fechado", criador: "Ana Carolina", seguidores: 30, iconName: 'tv' },
+    { id: 3, nome: "Canal RH e Benefícios", tipo: "Aberto", criador: "Recursos Humanos", seguidores: 85, iconName: 'tv' },
+    { id: 4, nome: "Canal Vendas e Resultados", tipo: "Fechado", criador: "Equipe Vendas", seguidores: 42, iconName: 'tv' },
+    { id: 5, nome: "Canal Comunidade Tech", tipo: "Aberto", criador: "TI", seguidores: 65, iconName: 'tv' }
+];
+const pulsesData = [
+    { id: 1, titulo: "Lançamento do Novo Produto Linha X Detalhado", tipo: "Video", canal: "Novidades", visualizacoes: 200, iconName: 'campaign' },
+    { id: 2, titulo: "Dica Rápida Y: Otimizando seu Fluxo de Trabalho Diário", tipo: "Artigo", canal: "Design", visualizacoes: 50, iconName: 'campaign' },
+    { id: 3, titulo: "Atualização Semanal do Projeto Z", tipo: "Video", canal: "Comunidade Tech", visualizacoes: 80, iconName: 'campaign' },
+    { id: 4, titulo: "Resumo da Reunião de Equipe", tipo: "Podcast", canal: "RH e Benefícios", visualizacoes: 35, iconName: 'campaign' },
+    { id: 5, titulo: "Inspiração da Semana", tipo: "Artigo", canal: "Vendas e Resultados", visualizacoes: 60, iconName: 'campaign' }
+];
+const eventosData = [
+    { id: 1, nome: "Workshop Avançado de Técnicas de Vendas Consultivas", data: "2024-08-15", tipo: "Presencial", status: "Agendado", iconName: 'event' },
+    { id: 2, nome: "Webinar sobre Inteligência Artificial Aplicada aos Negócios", data: "2024-07-30", tipo: "Online", status: "Agendado", iconName: 'event' },
+    { id: 3, nome: "Feira de Inovação 2024", data: "2024-09-10", tipo: "Presencial", status: "Planejado", iconName: 'event' },
+    { id: 4, nome: "Treinamento de Liderança", data: "2024-06-20", tipo: "Online", status: "Concluído", iconName: 'event' },
+    { id: 5, nome: "Simpósio de Tecnologia", data: "2024-11-05", tipo: "Presencial", status: "Agendado", iconName: 'event' }
+];
 const matriculasCursosData = [
     { id: 1, nomeMissao: "Lançamento da Escola do Varejo Completo 2024", usuario: "Iranice Maria Da Silva Pereira", inicio: "23/10/2023", fim: "23/10/2023", meta: "19/10/2023", perf: "100%", atraso: "-", obrig: "OBRIGATÓRIA", status: "FINALIZADA", iconName: 'school' },
     { id: 2, nomeMissao: "Técnicas de Vendas para Iniciantes no Setor", usuario: "Adley Cunha Rodrigues De Matos Silva", inicio: "23/10/2023", fim: "23/10/2023", meta: "19/10/2023", perf: "100%", atraso: "-", obrig: "OBRIGATÓRIA", status: "FINALIZADA", iconName: 'school' }
+    ,{ id: 3, nomeMissao: "Formação Básica em Excel", usuario: "João Souza", inicio: "01/02/2024", fim: "10/02/2024", meta: "15/02/2024", perf: "100%", atraso: "-", obrig: "OPCIONAL", status: "FINALIZADA", iconName: 'school' }
+    ,{ id: 4, nomeMissao: "Treinamento de Atendimento ao Cliente", usuario: "Maria Oliveira", inicio: "05/03/2024", fim: "15/03/2024", meta: "20/03/2024", perf: "90%", atraso: "-", obrig: "OBRIGATÓRIA", status: "FINALIZADA", iconName: 'school' }
+    ,{ id: 5, nomeMissao: "Capacitação de Líderes", usuario: "Carlos Lima", inicio: "10/04/2024", fim: "-", meta: "30/04/2024", perf: "60%", atraso: "-", obrig: "OBRIGATÓRIA", status: "INICIADA", iconName: 'school' }
 ];
 const matriculasTrilhasData = [
     { id: 1, nomeTrilha: "Boas-vindas ao Setor de Mercearia e Depósito Geral", usuario: "MAGNO CÉSAR RODRIGUES DE CARVALHO JUNIOR", inicio: "28/05/2025", fim: "-", meta: "30/06/2025", perf: "-", atraso: "-", obrig: "-", status: "INICIADA", iconName: 'signpost' },
     { id: 2, nomeTrilha: "Integração para Novos Membros do Time de Açougue", usuario: "MAGNO CÉSAR RODRIGUES DE CARVALHO JUNIOR", inicio: "28/05/2025", fim: "30/05/2025", meta: "30/06/2025", perf: "84%", atraso: "-", obrig: "-", status: "FINALIZADA", iconName: 'signpost' }
+    ,{ id: 3, nomeTrilha: "Trilha de Desenvolvimento Profissional", usuario: "João Souza", inicio: "15/04/2024", fim: "-", meta: "15/05/2024", perf: "40%", atraso: "-", obrig: "-", status: "INICIADA", iconName: 'signpost' }
+    ,{ id: 4, nomeTrilha: "Trilha de Especialistas em Vendas", usuario: "Maria Oliveira", inicio: "01/03/2024", fim: "20/03/2024", meta: "25/03/2024", perf: "100%", atraso: "-", obrig: "-", status: "FINALIZADA", iconName: 'signpost' }
+    ,{ id: 5, nomeTrilha: "Trilha de Inovação", usuario: "Carlos Lima", inicio: "10/02/2024", fim: "-", meta: "10/03/2024", perf: "70%", atraso: "-", obrig: "-", status: "INICIADA", iconName: 'signpost' }
 ];
-const matriculasEventosData = [ { id: 1, aluno: "Carlos Alberto Souza Lima", evento: "Workshop Vendas Estratégicas", presenca: "Confirmada", iconName: 'event'}];
+const matriculasEventosData = [
+    { id: 1, aluno: "Carlos Alberto Souza Lima", evento: "Workshop Vendas Estratégicas", presenca: "Confirmada", iconName: 'event' },
+    { id: 2, aluno: "João Souza", evento: "Feira de Inovação 2024", presenca: "Pendente", iconName: 'event' },
+    { id: 3, aluno: "Maria Oliveira", evento: "Treinamento de Liderança", presenca: "Confirmada", iconName: 'event' },
+    { id: 4, aluno: "Ana Paula", evento: "Simpósio de Tecnologia", presenca: "Pendente", iconName: 'event' },
+    { id: 5, aluno: "Carlos Lima", evento: "Webinar IA nos Negócios", presenca: "Confirmada", iconName: 'event' }
+];
 const gruposData = [
-    {id: 1, nome: "Açougueiros e Auxiliares de Corte", trilhas: 0, missoes: 8, canais:0, usuarios: 72, iconName: 'groups'},
-    {id: 2, nome: "Analistas de Cobrança e Crédito Financeiro", trilhas: 0, missoes: 5, canais:0, usuarios: 1, iconName: 'groups'}
+    { id: 1, nome: "Açougueiros e Auxiliares de Corte", trilhas: 0, missoes: 8, canais: 0, usuarios: 72, iconName: 'groups' },
+    { id: 2, nome: "Analistas de Cobrança e Crédito Financeiro", trilhas: 0, missoes: 5, canais: 0, usuarios: 1, iconName: 'groups' },
+    { id: 3, nome: "Equipe de Marketing", trilhas: 2, missoes: 3, canais: 1, usuarios: 15, iconName: 'groups' },
+    { id: 4, nome: "Time de Tecnologia", trilhas: 1, missoes: 4, canais: 2, usuarios: 25, iconName: 'groups' },
+    { id: 5, nome: "Comissão de Eventos", trilhas: 0, missoes: 2, canais: 1, usuarios: 8, iconName: 'groups' }
 ];
 const categoriasData = [
-    {id: 1, nome: "Desenvolvimento Comportamental e Soft Skills", missoes: 1, canais: 0, iconName: 'category'},
-    {id: 2, nome: "Conhecimentos Institucionais e Corporativos", missoes: 11, canais: 2, iconName: 'category'}
+    { id: 1, nome: "Desenvolvimento Comportamental e Soft Skills", missoes: 1, canais: 0, iconName: 'category' },
+    { id: 2, nome: "Conhecimentos Institucionais e Corporativos", missoes: 11, canais: 2, iconName: 'category' },
+    { id: 3, nome: "Tecnologia da Informação", missoes: 4, canais: 3, iconName: 'category' },
+    { id: 4, nome: "Marketing e Vendas", missoes: 2, canais: 1, iconName: 'category' },
+    { id: 5, nome: "Finanças e Contabilidade", missoes: 3, canais: 1, iconName: 'category' }
 ];
 const normativasData = [
     { id: 1, titulo: "Política de Segurança da Informação e Dados Pessoais", versao: "1.2", status: "Publicado", dataPublicacao: "2023-01-15", iconName: 'gavel' },
-    { id: 2, titulo: "Código de Conduta Ética e Profissional da Organização", versao: "2.0", status: "Em Revisão", dataPublicacao: "2022-11-20", iconName: 'gavel' }
+    { id: 2, titulo: "Código de Conduta Ética e Profissional da Organização", versao: "2.0", status: "Em Revisão", dataPublicacao: "2022-11-20", iconName: 'gavel' },
+    { id: 3, titulo: "Norma de Uso de Recursos de TI", versao: "1.0", status: "Publicado", dataPublicacao: "2023-05-10", iconName: 'gavel' },
+    { id: 4, titulo: "Política de Privacidade", versao: "3.1", status: "Publicado", dataPublicacao: "2023-03-22", iconName: 'gavel' },
+    { id: 5, titulo: "Procedimento de Backup", versao: "1.5", status: "Em Revisão", dataPublicacao: "2023-07-01", iconName: 'gavel' }
 ];
  const integrationsData = [
     { id: 'slack', name: 'Slack', category: 'Comunicação', logoIcon: 'forum', description: 'Integre sua plataforma de aprendizado com o Slack para notificações e engajamento em tempo real.', tags: ['Notificações automáticas', 'Compartilhamento de conteúdo', 'Comunicação em tempo real', '+1'], active: true },
@@ -427,7 +478,7 @@ function loadTabContent(tabId) {
         setupTableCheckboxes(`table-${tabId}`);
         addColumnToggleListeners(tabId, allPossibleColumnsForTab);
 
-        filterCurrentTable(sectionId);
+        filterCurrentTable(tabId);
     } else if (tabContentElement) {
         tabContentElement.innerHTML = `<p class="generic-content-placeholder">Conteúdo para a aba ${tabId} não definido ou não é uma tabela.</p>`;
     }
