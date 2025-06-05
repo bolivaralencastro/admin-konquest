@@ -359,8 +359,11 @@ function renderConfiguracoesComplementos() {
     let html = `
         <div class="complementos-search-bar" style="padding:0 16px 0 16px;">
             <div class="controls" style="margin-bottom:24px; border-bottom:none; padding: 16px 0 0 0;">
-                <div class="search-input-container" style="flex:1;"><span class="material-icons-outlined">search</span><input type="text" id="buscaComplementos" placeholder="Buscar integrações ou parceiros..."></div>
-                <button class="btn-icon" id="btnFiltroComplementos" title="Filtros"><span class="material-icons-outlined">filter_list</span></button>
+                <div class="search-input-container" style="flex:1;">
+                    <span class="material-icons-outlined">search</span>
+                    <input type="text" id="buscaComplementos" placeholder="Buscar integrações ou parceiros...">
+                    <button class="btn-icon filter-button" id="btnFiltroComplementos" title="Filtros"><span class="material-icons-outlined">filter_list</span></button>
+                </div>
             </div>
         </div>
         <div class="complementos-cards-area" style="padding:0 16px 32px 16px;">`;
@@ -462,10 +465,10 @@ function loadSectionContent(sectionId) {
                     <div class="search-input-container">
                         <span class="material-icons-outlined">search</span>
                         <input type="text" id="header-search-${sectionId}" placeholder="Buscar...">
+                        <button class="filter-button icon-btn" title="Filtrar" id="header-filter-${sectionId}">
+                            <span class="material-icons-outlined">filter_list</span>
+                        </button>
                     </div>
-                    <button class="filter-button" title="Filtrar" id="header-filter-${sectionId}">
-                        <span class="material-icons-outlined">filter_list</span>
-                    </button>
                 </div>
             </div>`;
         contentPanel.innerHTML = headerHtml + renderContentTabs(sectionId);
@@ -503,10 +506,10 @@ function loadSectionContent(sectionId) {
                     <div class="search-input-container">
                         <span class="material-icons-outlined">search</span>
                         <input type="text" id="header-search-${sectionId}" placeholder="Buscar...">
+                        <button class="filter-button icon-btn" title="Filtrar" id="header-filter-${sectionId}">
+                            <span class="material-icons-outlined">filter_list</span>
+                        </button>
                     </div>
-                    <button class="filter-button" title="Filtrar" id="header-filter-${sectionId}">
-                        <span class="material-icons-outlined">filter_list</span>
-                    </button>
                 </div>`;
         if(sectionId !== 'grupos' && sectionId !== 'categorias') {
             headerHtml += `

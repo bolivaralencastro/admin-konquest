@@ -187,12 +187,15 @@ body {
     border: 1px solid var(--border-color);
     border-radius: 20px;
 }
-.search-input-container .material-icons-outlined {
+.search-input-container > .material-icons-outlined {
     color: var(--sidebar-icon-color);
     margin-right: 8px;
     font-size: 22px;
 }
-.controls input[type="text"] {
+.search-input-container .filter-button .material-icons-outlined {
+    margin-right: 0;
+}
+.search-input-container input[type="text"] {
     border: none;
     background: none;
     padding: 0;
@@ -200,17 +203,17 @@ body {
     flex-grow: 1;
     outline: none;
 }
-.controls .filter-button {
+.search-input-container .filter-button {
     background: none;
     border: none;
-    color: var(--primary-color);
+    color: var(--sidebar-icon-color);
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.controls .filter-button:hover {
+.search-input-container .filter-button:hover {
     background-color: rgba(0,0,0,0.08);
 }
-.controls .filter-button .material-icons-outlined { font-size: 22px; }
+.search-input-container .filter-button .material-icons-outlined { font-size: 22px; }
 
 table { width: 100%; border-collapse: collapse; table-layout: fixed; }
 th, td {
@@ -378,6 +381,7 @@ table thead:hover .table-header-actions { visibility: visible; opacity: 1; trans
 .content-tab-actions .header-button,
 .content-header-no-tabs .content-header-actions .header-button,
 .controls .filter-button,
+.search-input-container .filter-button,
 .btn-icon.more {
   width: 36px;
   height: 36px;
