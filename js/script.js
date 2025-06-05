@@ -507,12 +507,16 @@ function loadSectionContent(sectionId) {
                     <button class="filter-button" title="Filtrar" id="header-filter-${sectionId}">
                         <span class="material-icons-outlined">filter_list</span>
                     </button>
-                </div>
+                </div>`;
+        if(sectionId !== 'grupos' && sectionId !== 'categorias') {
+            headerHtml += `
                 <div class="content-header-actions">
                     <button class="header-button" id="directCreateButton" title="Criar Novo ${sectionTitle}">
                         <span class="material-icons-outlined">add</span>
                     </button>
-                </div>
+                </div>`;
+        }
+        headerHtml += `
             </div>
             <div class="section-content-area"></div>`;
         contentPanel.innerHTML = headerHtml;
