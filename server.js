@@ -24,8 +24,9 @@ const server = http.createServer((req, res) => {
     // Define o caminho base para os arquivos estáticos
     const basePath = path.join(__dirname, 'public');
     
-    // Constrói o caminho do arquivo solicitado
-    let filePath = path.join(basePath, req.url === '/' ? 'index.html' : req.url);
+    // Constrói o caminho do arquivo solicitado de forma segura, ignorando query strings
+    const { pathname } = new URL(req.url, 'http://localhost');
+    let filePath = path.join(basePath, pathname === '/' ? 'index.html' : pathname);
 
     // Verifica a extensão do arquivo para definir o Content-Type
     const extname = String(path.extname(filePath)).toLowerCase();
