@@ -1,6 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const { URL } = require('url');
 
 const PORT = process.env.PORT || 3000; // Você pode escolher outra porta se preferir ou definir via variável de ambiente
 
@@ -24,8 +25,25 @@ const server = http.createServer((req, res) => {
     // Define o caminho base para os arquivos estáticos
     const basePath = path.join(__dirname, 'public');
     
-    // Constrói o caminho do arquivo solicitado
-    let filePath = path.join(basePath, req.url === '/' ? 'index.html' : req.url);
+    // Extrai apenas o pathname para ignorar query strings
+    const { pathname } = new URL(req.url, 'http://localhost');
+
+    // Resolve o caminho solicitado de forma segura
+    let resolvedPath = path.resolve(basePath, pathname.slice(1));
+
+    // Se a requisição for para a raiz, serve index.html
+    if (pathname === '/') {
+        resolvedPath = path.resolve(basePath, 'index.html');
+    }
+
+    // Impede acesso a caminhos fora da pasta public
+    if (!resolvedPath.startsWith(basePath)) {
+        res.writeHead(403, { 'Content-Type': 'text/plain' });
+        res.end('Forbidden');
+        return;
+    }
+
+    let filePath = resolvedPath;
 
     // Verifica a extensão do arquivo para definir o Content-Type
     const extname = String(path.extname(filePath)).toLowerCase();
