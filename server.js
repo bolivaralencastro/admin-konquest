@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 3000; // Você pode escolher outra porta se preferir
+const PORT = process.env.PORT || 3000; // Você pode escolher outra porta se preferir ou definir via variável de ambiente
 
 const mimeTypes = {
     '.html': 'text/html',
