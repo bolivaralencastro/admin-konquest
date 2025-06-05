@@ -139,6 +139,10 @@ body {
 .content-tab-actions, .content-header-no-tabs .content-header-actions {
     display: flex; align-items: center; padding-right: 16px;
 }
+.content-header-no-tabs .header-search {
+    display: flex; align-items: center; margin-left: 16px; flex: 1; max-width: 300px;
+}
+.content-header-no-tabs .header-search .search-input-container { flex: 1; }
 .content-tab-actions .header-button, 
 .content-header-no-tabs .content-header-actions .header-button {
     background: none; border: none; cursor: pointer; color: var(--primary-color);

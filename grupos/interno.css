@@ -96,6 +96,8 @@ tr:hover { background-color: #f5f5f5; }
     display: inline-block;
 }
 .content-header-no-tabs { background: #fff; box-shadow: 0 1px 0 0 #e0e0e0; height: 56px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; padding: 0 16px; gap: 16px; }
+.content-header-no-tabs .header-search { flex: 1; display: flex; align-items: center; max-width: 300px; }
+.content-header-no-tabs .header-search .search-input-container { flex: 1; }
 .section-title.grupo-titulo { margin-left: 8px; }
 .header-button.icon-btn { margin-right: 0; }
 .header-button.icon-btn:last-child { margin-left: auto; }
