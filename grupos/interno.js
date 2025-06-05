@@ -62,7 +62,7 @@ function renderTabelaUsuarios(filtro = '') {
                     <td>${u.nome}</td>
                     <td>${u.cargo}</td>
                     <td>${u.data}</td>
-                    <td><button class="btn-icon btn-menu" title="Ações"><span class="material-icons-outlined">more_vert</span></button></td>
+                    <td><button class="btn-icon btn-menu" title="Ações"><span class="material-symbols-outlined">more_vert</span></button></td>
                 </tr>
             `).join('')
         }
@@ -107,12 +107,12 @@ function renderTabelaCursos(filtro = '') {
         ${cursos.length === 0 ? `<tr><td colspan="6" style="text-align:center; color:#aaa;">Nenhum curso encontrado.</td></tr>` :
             cursos.map(c => `
                 <tr>
-                    <td><span class="material-icons-outlined" style="color:#7b1fa2;">${c.icon}</span></td>
+                    <td><span class="material-symbols-outlined" style="color:#7b1fa2;">${c.icon}</span></td>
                     <td>${c.nome}</td>
                     <td>${c.tipo}</td>
                     <td>${c.status}</td>
                     <td>${c.data}</td>
-                    <td><button class="btn-icon" title="Remover"><span class="material-icons-outlined">delete</span></button></td>
+                    <td><button class="btn-icon" title="Remover"><span class="material-symbols-outlined">delete</span></button></td>
                 </tr>
             `).join('')
         }
@@ -132,11 +132,11 @@ function renderTabelaTrilhas(filtro = '') {
         ${trilhas.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:#aaa;">Nenhuma trilha encontrada.</td></tr>` :
             trilhas.map(t => `
                 <tr>
-                    <td><span class="material-icons-outlined" style="color:#7b1fa2;">${t.icon}</span></td>
+                    <td><span class="material-symbols-outlined" style="color:#7b1fa2;">${t.icon}</span></td>
                     <td>${t.nome}</td>
                     <td>${t.status}</td>
                     <td>${t.data}</td>
-                    <td><button class="btn-icon" title="Remover"><span class="material-icons-outlined">delete</span></button></td>
+                    <td><button class="btn-icon" title="Remover"><span class="material-symbols-outlined">delete</span></button></td>
                 </tr>
             `).join('')
         }
@@ -156,13 +156,13 @@ function renderTabelaEventos(filtro = '') {
         ${eventos.length === 0 ? `<tr><td colspan="7" style="text-align:center; color:#aaa;">Nenhum evento encontrado.</td></tr>` :
             eventos.map(ev => `
                 <tr>
-                    <td><span class="material-icons-outlined" style="color:#7b1fa2;">${ev.icon}</span></td>
+                    <td><span class="material-symbols-outlined" style="color:#7b1fa2;">${ev.icon}</span></td>
                     <td>${ev.nome}</td>
                     <td>${ev.tipo}</td>
                     <td>${ev.dataEvento}</td>
                     <td>${ev.status}</td>
                     <td>${ev.data}</td>
-                    <td><button class="btn-icon" title="Remover"><span class="material-icons-outlined">delete</span></button></td>
+                    <td><button class="btn-icon" title="Remover"><span class="material-symbols-outlined">delete</span></button></td>
                 </tr>
             `).join('')
         }
@@ -182,11 +182,11 @@ function renderTabelaCanais(filtro = '') {
         ${canais.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:#aaa;">Nenhum canal encontrado.</td></tr>` :
             canais.map(c => `
                 <tr>
-                    <td><span class="material-icons-outlined" style="color:#7b1fa2;">${c.icon}</span></td>
+                    <td><span class="material-symbols-outlined" style="color:#7b1fa2;">${c.icon}</span></td>
                     <td>${c.nome}</td>
                     <td>${c.tipo}</td>
                     <td>${c.data}</td>
-                    <td><button class="btn-icon" title="Remover"><span class="material-icons-outlined">delete</span></button></td>
+                    <td><button class="btn-icon" title="Remover"><span class="material-symbols-outlined">delete</span></button></td>
                 </tr>
             `).join('')
         }
