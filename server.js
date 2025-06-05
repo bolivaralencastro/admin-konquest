@@ -40,10 +40,10 @@ const server = http.createServer((req, res) => {
                 fs.readFile(path.join(basePath, 'index.html'), (err, indexContent) => {
                     if (err) {
                         res.writeHead(404, { 'Content-Type': 'text/html' });
-                        res.end('<h1>404 Not Found (index.html also not found)</h1>', 'utf-8');
+                        res.end('<h1>404 Not Found (index.html also not found)</h1>');
                     } else {
                         res.writeHead(200, { 'Content-Type': 'text/html' });
-                        res.end(indexContent, 'utf-8');
+                        res.end(indexContent);
                     }
                 });
             } else {
@@ -52,7 +52,11 @@ const server = http.createServer((req, res) => {
             }
         } else {
             res.writeHead(200, { 'Content-Type': contentType });
-            res.end(content, 'utf-8');
+            if (contentType.startsWith('text/')) {
+                res.end(content, 'utf-8');
+            } else {
+                res.end(content);
+            }
         }
     });
 });
