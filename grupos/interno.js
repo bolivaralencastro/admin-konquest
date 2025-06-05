@@ -1,13 +1,16 @@
 // Alternância de abas
 const abas = document.querySelectorAll('.tab-item');
 const conteudos = document.querySelectorAll('.tab-content');
+let currentTab = 'usuarios';
+let currentSearch = '';
 
-function renderAba(aba) {
-    if (aba === 'usuarios') renderTabelaUsuarios();
-    if (aba === 'cursos') renderTabelaCursos();
-    if (aba === 'trilhas') renderTabelaTrilhas();
-    if (aba === 'eventos') renderTabelaEventos();
-    if (aba === 'canais') renderTabelaCanais();
+function renderAba(aba, filtro = '') {
+    currentTab = aba;
+    if (aba === 'usuarios') renderTabelaUsuarios(filtro);
+    if (aba === 'cursos') renderTabelaCursos(filtro);
+    if (aba === 'trilhas') renderTabelaTrilhas(filtro);
+    if (aba === 'eventos') renderTabelaEventos(filtro);
+    if (aba === 'canais') renderTabelaCanais(filtro);
 }
 
 abas.forEach(aba => {
@@ -17,7 +20,7 @@ abas.forEach(aba => {
         aba.classList.add('active');
         const conteudo = document.getElementById('aba-' + aba.dataset.aba);
         conteudo.classList.add('active');
-        renderAba(aba.dataset.aba);
+        renderAba(aba.dataset.aba, currentSearch);
     });
 });
 
@@ -33,6 +36,11 @@ function getGrupoNome() {
     return params.get('nome') || 'Nome do Grupo';
 }
 document.getElementById('grupoTitulo').textContent = getGrupoNome();
+const headerSearchInput = document.getElementById('grupo-header-search');
+headerSearchInput.addEventListener('input', e => {
+    currentSearch = e.target.value;
+    renderAba(currentTab, currentSearch);
+});
 
 // MOCK de dados de usuários vinculados
 const usuariosMock = [
@@ -44,7 +52,7 @@ const usuariosMock = [
 
 function renderTabelaUsuarios(filtro = '') {
     const usuarios = usuariosMock.filter(u => u.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" id="buscaUsuarios" placeholder="Pesquisar por nome..." value="${filtro}"></div><button class="btn-icon" id="btnFiltroUsuarios" title="Filtros"><span class="material-icons-outlined">filter_list</span></button></div>
+    let html = `<div class="controls"><button class="btn-icon" id="btnFiltroUsuarios" title="Filtros"><span class="material-icons-outlined">filter_list</span></button></div>
         <table><thead><tr><th><input type="checkbox" id="checkAllUsuarios"></th><th></th><th>Nome</th><th>Cargo</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${usuarios.length === 0 ? `<tr><td colspan="6" style="text-align:center; color:#aaa;">Nenhum usuário encontrado.</td></tr>` :
             usuarios.map((u, idx) => `
@@ -60,9 +68,6 @@ function renderTabelaUsuarios(filtro = '') {
         }
         </tbody></table>`;
     document.getElementById('aba-usuarios').innerHTML = html;
-    document.getElementById('buscaUsuarios').addEventListener('input', e => {
-        renderTabelaUsuarios(e.target.value);
-    });
     // Seleção em lote
     const checkAll = document.getElementById('checkAllUsuarios');
     const checks = document.querySelectorAll('.checkUsuario');
@@ -101,7 +106,7 @@ const canaisMock = [
 
 function renderTabelaCursos(filtro = '') {
     const cursos = cursosMock.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" id="buscaCursos" placeholder="Pesquisar por nome..." value="${filtro}"></div></div>
+    let html = `<div class="controls"></div>
         <table><thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Status</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${cursos.length === 0 ? `<tr><td colspan="6" style="text-align:center; color:#aaa;">Nenhum curso encontrado.</td></tr>` :
             cursos.map(c => `
@@ -117,9 +122,6 @@ function renderTabelaCursos(filtro = '') {
         }
         </tbody></table>`;
     document.getElementById('aba-cursos').innerHTML = html;
-    document.getElementById('buscaCursos').addEventListener('input', e => {
-        renderTabelaCursos(e.target.value);
-    });
     document.querySelectorAll('#aba-cursos .btn-icon').forEach((btn, idx) => {
         btn.addEventListener('click', () => {
             alert('Remover curso: ' + cursos[idx].nome);
@@ -129,7 +131,7 @@ function renderTabelaCursos(filtro = '') {
 
 function renderTabelaTrilhas(filtro = '') {
     const trilhas = trilhasMock.filter(t => t.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" id="buscaTrilhas" placeholder="Pesquisar por nome..." value="${filtro}"></div></div>
+    let html = `<div class="controls"></div>
         <table><thead><tr><th></th><th>Nome</th><th>Status</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${trilhas.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:#aaa;">Nenhuma trilha encontrada.</td></tr>` :
             trilhas.map(t => `
@@ -144,9 +146,6 @@ function renderTabelaTrilhas(filtro = '') {
         }
         </tbody></table>`;
     document.getElementById('aba-trilhas').innerHTML = html;
-    document.getElementById('buscaTrilhas').addEventListener('input', e => {
-        renderTabelaTrilhas(e.target.value);
-    });
     document.querySelectorAll('#aba-trilhas .btn-icon').forEach((btn, idx) => {
         btn.addEventListener('click', () => {
             alert('Remover trilha: ' + trilhas[idx].nome);
@@ -156,7 +155,7 @@ function renderTabelaTrilhas(filtro = '') {
 
 function renderTabelaEventos(filtro = '') {
     const eventos = eventosMock.filter(ev => ev.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" id="buscaEventos" placeholder="Pesquisar por nome..." value="${filtro}"></div></div>
+    let html = `<div class="controls"></div>
         <table><thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Data do evento</th><th>Status</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${eventos.length === 0 ? `<tr><td colspan="7" style="text-align:center; color:#aaa;">Nenhum evento encontrado.</td></tr>` :
             eventos.map(ev => `
@@ -173,9 +172,6 @@ function renderTabelaEventos(filtro = '') {
         }
         </tbody></table>`;
     document.getElementById('aba-eventos').innerHTML = html;
-    document.getElementById('buscaEventos').addEventListener('input', e => {
-        renderTabelaEventos(e.target.value);
-    });
     document.querySelectorAll('#aba-eventos .btn-icon').forEach((btn, idx) => {
         btn.addEventListener('click', () => {
             alert('Remover evento: ' + eventos[idx].nome);
@@ -185,7 +181,7 @@ function renderTabelaEventos(filtro = '') {
 
 function renderTabelaCanais(filtro = '') {
     const canais = canaisMock.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
-    let html = `<div class="controls"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" id="buscaCanais" placeholder="Pesquisar por nome..." value="${filtro}"></div></div>
+    let html = `<div class="controls"></div>
         <table><thead><tr><th></th><th>Nome</th><th>Tipo</th><th>Inclusão no grupo</th><th></th></tr></thead><tbody>
         ${canais.length === 0 ? `<tr><td colspan="5" style="text-align:center; color:#aaa;">Nenhum canal encontrado.</td></tr>` :
             canais.map(c => `
@@ -200,9 +196,6 @@ function renderTabelaCanais(filtro = '') {
         }
         </tbody></table>`;
     document.getElementById('aba-canais').innerHTML = html;
-    document.getElementById('buscaCanais').addEventListener('input', e => {
-        renderTabelaCanais(e.target.value);
-    });
     document.querySelectorAll('#aba-canais .btn-icon').forEach((btn, idx) => {
         btn.addEventListener('click', () => {
             alert('Remover canal: ' + canais[idx].nome);
@@ -215,5 +208,5 @@ function renderTabelaPlaceholder(aba, label) {
     document.getElementById('aba-' + aba).innerHTML = `<div class="controls"><div style="padding:32px; text-align:center; color:#bbb;">Nenhum ${label} vinculado.</div></div>`;
 }
 
-// Render inicial: apenas a aba ativa
-renderTabelaUsuarios(); 
+// Render inicial
+renderAba(currentTab, currentSearch);

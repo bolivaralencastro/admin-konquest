@@ -61,6 +61,29 @@ let currentActiveMenuSection = 'gestao-conteudos';
 let currentActiveContentTab = 'cursos';
 let currentIntegrationFilter = 'todas';
 
+function filterCurrentTable(sectionId) {
+    let tableId = sectionId;
+    if (sectionId === 'gestao-conteudos' || sectionId === 'matriculas') {
+        tableId = currentActiveContentTab;
+    }
+    const table = document.getElementById(`table-${tableId}`);
+    const input = document.getElementById(`header-search-${sectionId}`);
+    if (table && input) {
+        const term = input.value.toLowerCase();
+        const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        Array.from(rows).forEach(row => {
+            row.style.display = Array.from(row.cells).some(cell => cell.textContent.toLowerCase().includes(term)) ? '' : 'none';
+        });
+    }
+}
+
+function attachHeaderSearchListener(sectionId) {
+    const input = document.getElementById(`header-search-${sectionId}`);
+    if (input) {
+        input.addEventListener('keyup', () => filterCurrentTable(sectionId));
+    }
+}
+
 function handleHeaderOnCollapse() {}
 collapseButton.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); handleHeaderOnCollapse(); });
 exitAdminButton.addEventListener('click', () => { alert('Saindo da Área Administrativa...'); });
@@ -92,7 +115,7 @@ function renderGenericTable(sectionId, data, allColsDefinition) {
     let placeholderText = "Buscar"; let sectionFriendlyName = sectionId.replace(/matriculas_|-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()).trim(); placeholderText = `Buscar em ${sectionFriendlyName}...`;
     const itemIconName = sectionIcons[sectionId] || 'article';
     const columnsToRenderInHeader = allColsDefinition.filter(col => { if (col.key === 'acoes') return false; return visibleColumnsState[sectionId] ? visibleColumnsState[sectionId][col.key] !== false : true; });
-    let tableHTML = `<div class="controls"><div class="search-input-container"><span class="material-icons-outlined">search</span><input type="text" placeholder="${placeholderText}" id="search-${sectionId}"></div><button class="filter-button" title="Filtrar" onclick="alert('Filtro clicado para ${sectionFriendlyName}')"><span class="material-icons-outlined">filter_list</span></button></div><table id="table-${sectionId}"><thead><tr><th class="cell-checkbox"><input type="checkbox" class="table-checkbox" id="selectAll-${sectionId}" title="Selecionar Todos"></th>`;
+    let tableHTML = `<div class="controls"><button class="filter-button" title="Filtrar" onclick="alert('Filtro clicado para ${sectionFriendlyName}')"><span class="material-icons-outlined">filter_list</span></button></div><table id="table-${sectionId}"><thead><tr><th class="cell-checkbox"><input type="checkbox" class="table-checkbox" id="selectAll-${sectionId}" title="Selecionar Todos"></th>`;
     columnsToRenderInHeader.forEach(col => { tableHTML += `<th>${col.label}</th>`; });
     tableHTML += `<th style="text-align: right; position:relative;"><div class="table-header-actions"><button class="btn-icon" id="tableSettingsBtn-${sectionId}" title="Configurar Colunas"><span class="material-icons-outlined">settings</span></button>${renderColumnToggleDropdown(sectionId, allColsDefinition)}</div></th>`;
     tableHTML += `</tr></thead><tbody>`;
@@ -401,19 +424,7 @@ function loadTabContent(tabId) {
         setupTableCheckboxes(`table-${tabId}`);
         addColumnToggleListeners(tabId, allPossibleColumnsForTab);
 
-        const searchInput = document.getElementById(`search-${tabId}`);
-        if (searchInput) {
-            searchInput.addEventListener('keyup', () => {
-                const searchTerm = searchInput.value.toLowerCase();
-                const table = document.getElementById(`table-${tabId}`);
-                if (table) {
-                    const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-                    Array.from(rows).forEach(row => {
-                        row.style.display = Array.from(row.cells).some(cell => cell.textContent.toLowerCase().includes(searchTerm)) ? '' : 'none';
-                    });
-                }
-            });
-        }
+        filterCurrentTable(sectionId);
     } else if (tabContentElement) {
         tabContentElement.innerHTML = `<p class="generic-content-placeholder">Conteúdo para a aba ${tabId} não definido ou não é uma tabela.</p>`;
     }
@@ -444,8 +455,18 @@ function loadSectionContent(sectionId) {
         contentPanel.innerHTML = headerHtml;
         addLayoutSettingsListeners();
     } else if (hasTabsForTables) {
-        let headerHtml = `<div class="content-header-no-tabs"><span class="section-title">${sectionTitle}</span></div>`;
+        let headerHtml = `
+            <div class="content-header-no-tabs">
+                <span class="section-title">${sectionTitle}</span>
+                <div class="header-search">
+                    <div class="search-input-container">
+                        <span class="material-icons-outlined">search</span>
+                        <input type="text" id="header-search-${sectionId}" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>`;
         contentPanel.innerHTML = headerHtml + renderContentTabs(sectionId);
+        attachHeaderSearchListener(sectionId);
         loadTabContent(currentActiveContentTab); // Carrega a aba ativa
         const contentCreateButton = document.getElementById('contentCreateButton');
         if (contentCreateButton) {
@@ -496,6 +517,12 @@ function loadSectionContent(sectionId) {
         let headerHtml = `
             <div class="content-header-no-tabs">
                 <span class="section-title">${sectionTitle}</span>
+                <div class="header-search">
+                    <div class="search-input-container">
+                        <span class="material-icons-outlined">search</span>
+                        <input type="text" id="header-search-${sectionId}" placeholder="Buscar...">
+                    </div>
+                </div>
                 <div class="content-header-actions">
                     <button class="header-button" id="directCreateButton" title="Criar Novo ${sectionTitle}">
                         <span class="material-icons-outlined">add</span>
@@ -504,6 +531,7 @@ function loadSectionContent(sectionId) {
             </div>
             <div class="section-content-area"></div>`;
         contentPanel.innerHTML = headerHtml;
+        attachHeaderSearchListener(sectionId);
         const directCreateButton = document.getElementById('directCreateButton');
         if(directCreateButton) {
             directCreateButton.addEventListener('click', () => {
@@ -522,6 +550,7 @@ function loadSectionContent(sectionId) {
             contentArea.innerHTML = renderGenericTable(sectionId, tableDataSources[sectionId], allPossibleColumnsForSection);
             setupTableCheckboxes(`table-${sectionId}`);
             addColumnToggleListeners(sectionId, allPossibleColumnsForSection); // Passa todas as colunas para o dropdown
+            filterCurrentTable(sectionId);
         } else if (contentArea) { contentArea.innerHTML = `<p class="generic-content-placeholder">Dados para ${sectionTitle} não encontrados.</p>`; }
     } else {
         contentPanel.innerHTML = `
