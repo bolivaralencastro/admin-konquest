@@ -140,9 +140,22 @@ body {
     display: flex; align-items: center; padding-right: 16px;
 }
 .content-header-no-tabs .header-search {
-    display: flex; align-items: center; margin-left: 16px; flex: 1; max-width: 300px;
+    display: flex;
+    align-items: center;
+    margin-left: 16px;
+    flex: 1;
+    max-width: 300px;
 }
-.content-header-no-tabs .header-search .search-input-container { flex: 1; }
+.content-header-no-tabs .header-search .search-input-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 0 12px;
+    height: 40px;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+}
 .content-tab-actions .header-button, 
 .content-header-no-tabs .content-header-actions .header-button {
     background: none; border: none; cursor: pointer; color: var(--primary-color);
@@ -164,13 +177,39 @@ body {
     border-bottom: 1px solid var(--border-color);
     position: relative; 
 }
-.search-input-container { display: flex; align-items: center; flex-grow: 1; padding-left: 0; }
-.search-input-container .material-icons-outlined { color: var(--sidebar-icon-color); margin-right: 8px; font-size: 22px; }
-.controls input[type="text"] { padding: 10px 0; border: none; font-size: 0.9em; flex-grow: 1; outline: none; }
-.controls .filter-button {
-    background: none; border: 1px solid var(--border-color); color: var(--primary-color); border-radius: 6px; padding: 7px 18px; font-size: 1rem; font-weight: 500; cursor: pointer; margin-right: 8px; transition: background 0.2s, color 0.2s;
+.search-input-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    padding: 0 12px;
+    height: 40px;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
 }
-.controls .filter-button.active, .controls .filter-button:hover { background: var(--primary-light-color); color: var(--primary-hover-color); border-color: var(--primary-hover-color); }
+.search-input-container .material-icons-outlined {
+    color: var(--sidebar-icon-color);
+    margin-right: 8px;
+    font-size: 22px;
+}
+.controls input[type="text"] {
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 0.9em;
+    flex-grow: 1;
+    outline: none;
+}
+.controls .filter-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.controls .filter-button:hover {
+    background-color: rgba(0,0,0,0.08);
+}
 .controls .filter-button .material-icons-outlined { font-size: 22px; }
 
 table { width: 100%; border-collapse: collapse; table-layout: fixed; }
