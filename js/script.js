@@ -120,6 +120,7 @@ const collapseButton = document.getElementById('collapseButton');
 const exitAdminButton = document.getElementById('exitAdminButton');
 const addButton = document.getElementById('addButton');
 const addDropdown = document.getElementById('addDropdown');
+const themeToggle = document.getElementById('themeToggle');
 const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
 const contentPanel = document.getElementById('contentPanel');
 let currentActiveMenuSection = 'gestao-conteudos';
@@ -154,6 +155,18 @@ function handleHeaderOnCollapse() {
 }
 collapseButton.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); handleHeaderOnCollapse(); });
 exitAdminButton.addEventListener('click', () => { alert('Saindo da Área Administrativa...'); });
+if(themeToggle){
+    const saved = localStorage.getItem('theme');
+    if(saved === 'dark'){
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<span class="material-icons-outlined">light_mode</span>';
+    }
+    themeToggle.addEventListener('click', () => {
+        const dark = document.body.classList.toggle('dark-mode');
+        themeToggle.innerHTML = `<span class="material-icons-outlined">${dark ? 'light_mode' : 'dark_mode'}</span>`;
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+    });
+}
 if(addButton && addDropdown) {
     addButton.addEventListener('click', ev => {
         ev.stopPropagation();

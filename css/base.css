@@ -55,3 +55,17 @@ body {
 .btn-icon .material-icons-outlined,
 .btn-icon .material-symbols-outlined { font-size: 18px; }
 .btn-icon:hover { background-color: rgba(0,0,0,0.08); }
+
+body.dark-mode {
+    --sidebar-bg: #202124;
+    --sidebar-text-color: #e8eaed;
+    --sidebar-icon-color: #bdc1c6;
+    --sidebar-active-bg: #383b3c;
+    --sidebar-active-text: #e8eaed;
+    --content-bg: #303134;
+    --text-color: #e8eaed;
+    --border-color: #5f6368;
+    --primary-light-color: #3c4043;
+    --tab-text-color: #bdc1c6;
+    --tab-active-text-color: var(--primary-color);
+}

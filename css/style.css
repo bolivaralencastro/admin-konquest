@@ -52,6 +52,25 @@ body {
 .add-button .material-icons-outlined,
 .add-button .material-symbols-outlined { font-size: 24px; }
 .add-button:hover { background-color: rgba(0,0,0,0.08); }
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--sidebar-icon-color);
+    padding: 0;
+    border-radius: 50%;
+    width: var(--sidebar-header-icon-area-width);
+    height: var(--sidebar-header-icon-area-width);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    margin-left: 8px;
+}
+.theme-toggle .material-icons-outlined,
+.theme-toggle .material-symbols-outlined { font-size: 24px; }
+.theme-toggle:hover { background-color: rgba(0,0,0,0.08); }
+.sidebar.collapsed .theme-toggle { width: 48px; margin-top: 4px; }
 .fab-dropdown {
     display: none;
     position: fixed;
