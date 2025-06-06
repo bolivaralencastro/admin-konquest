@@ -158,3 +158,12 @@ td:first-child, th:first-child { width: 36px; text-align: center; }
 input[type="checkbox"] { accent-color: var(--primary-color); width: 18px; height: 18px; }
 .tab-content { display: none; }
 .tab-content.active { display: block; } 
+
+/* Quick Graph Styles */
+.quick-graph { padding: 16px; border-bottom: 1px solid var(--border-color); background: var(--content-bg); }
+.quick-graph-title { margin-bottom: 8px; font-size: 1rem; }
+.quick-graph-bar { margin-bottom: 6px; }
+.quick-graph-label { display: block; font-size: 0.85rem; margin-bottom: 2px; }
+.quick-graph-bar-inner { height: 16px; background: var(--primary-color); color:#fff; border-radius: 4px; padding-left:4px; font-size: 0.75rem; line-height:16px; }
+.quick-graph-total { margin-top: 8px; font-weight: bold; text-align: right; font-size:0.9rem; }
+

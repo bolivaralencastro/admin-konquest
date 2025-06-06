@@ -99,6 +99,15 @@ const canaisMock = [
     { id: 1, nome: 'Canal Novidades', tipo: 'Aberto', data: '2 de mai. de 2024', icon: 'hub' },
     { id: 2, nome: 'Canal Design', tipo: 'Fechado', data: '2 de mai. de 2024', icon: 'hub' },
 ];
+const storesData = [
+    { id: 1, nome: "Loja Central", usuarios: 34 },
+    { id: 2, nome: "Filial Norte", usuarios: 22 },
+    { id: 3, nome: "Filial Sul", usuarios: 18 },
+    { id: 4, nome: "Filial Leste", usuarios: 15 },
+    { id: 5, nome: "Filial Oeste", usuarios: 21 }
+];
+window.storesData = storesData;
+
 
 function renderTabelaCursos(filtro = '') {
     const cursos = cursosMock.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
@@ -198,6 +207,17 @@ function renderTabelaCanais(filtro = '') {
         });
     });
 }
+function renderQuickGraph() {
+    const container = document.getElementById("quickGraphContainer");
+    if (!container) return;
+    const totalUsuarios = storesData.reduce((sum, s) => sum + s.usuarios, 0);
+    const bars = storesData.map(s => {
+        const pct = totalUsuarios ? (s.usuarios / totalUsuarios) * 100 : 0;
+        return `<div class="quick-graph-bar"><span class="quick-graph-label">${s.nome}</span><div class="quick-graph-bar-inner" style="width:${pct}%">${s.usuarios}</div></div>`;
+    }).join("");
+    container.innerHTML = `<h3 class="quick-graph-title">Visão rápida de Lojas</h3>${bars}<div class="quick-graph-total">Total: ${totalUsuarios}</div>`;
+}
+
 
 // Estrutura básica para as outras abas (cursos, trilhas, eventos, canais)
 function renderTabelaPlaceholder(aba, label) {
@@ -206,3 +226,4 @@ function renderTabelaPlaceholder(aba, label) {
 
 // Render inicial
 renderAba(currentTab, currentSearch);
+renderQuickGraph();
