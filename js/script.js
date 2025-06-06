@@ -118,8 +118,8 @@ for (const sectionKey in allTableColumns) { visibleColumnsState[sectionKey] = {}
 const sidebar = document.getElementById('sidebar');
 const collapseButton = document.getElementById('collapseButton');
 const exitAdminButton = document.getElementById('exitAdminButton');
-const addFabButton = document.getElementById('addFabButton');
-const addFabDropdown = document.getElementById('addFabDropdown');
+const addButton = document.getElementById('addButton');
+const addDropdown = document.getElementById('addDropdown');
 const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
 const contentPanel = document.getElementById('contentPanel');
 let currentActiveMenuSection = 'gestao-conteudos';
@@ -149,27 +149,29 @@ function attachHeaderSearchListener(sectionId) {
     }
 }
 
-function handleHeaderOnCollapse() {}
+function handleHeaderOnCollapse() {
+    if(addDropdown) addDropdown.style.display = 'none';
+}
 collapseButton.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); handleHeaderOnCollapse(); });
 exitAdminButton.addEventListener('click', () => { alert('Saindo da Área Administrativa...'); });
-if(addFabButton && addFabDropdown) {
-    addFabButton.addEventListener('click', ev => {
+if(addButton && addDropdown) {
+    addButton.addEventListener('click', ev => {
         ev.stopPropagation();
-        const isOpen = addFabDropdown.style.display === 'block';
-        addFabDropdown.style.display = isOpen ? 'none' : 'block';
-        const rect = addFabButton.getBoundingClientRect();
-        addFabDropdown.style.top = (rect.bottom + window.scrollY + 4) + 'px';
-        addFabDropdown.style.left = rect.left + 'px';
+        const isOpen = addDropdown.style.display === 'block';
+        addDropdown.style.display = isOpen ? 'none' : 'block';
+        const rect = addButton.getBoundingClientRect();
+        addDropdown.style.top = (rect.top + window.scrollY) + 'px';
+        addDropdown.style.left = (rect.right + window.scrollX + 4) + 'px';
     });
     document.addEventListener('click', ev => {
-        if(!addFabDropdown.contains(ev.target) && ev.target !== addFabButton) {
-            addFabDropdown.style.display = 'none';
+        if(!addDropdown.contains(ev.target) && ev.target !== addButton) {
+            addDropdown.style.display = 'none';
         }
     });
-    addFabDropdown.querySelectorAll('.dropdown-item').forEach(item => {
+    addDropdown.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', () => {
             alert('Criar ' + item.textContent);
-            addFabDropdown.style.display = 'none';
+            addDropdown.style.display = 'none';
         });
     });
 }
