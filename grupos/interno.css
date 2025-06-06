@@ -67,12 +67,14 @@
     border: 1px solid var(--border-color);
     border-radius: 20px;
 }
-.search-input-container > .material-icons-outlined {
+.search-input-container > .material-icons-outlined,
+.search-input-container > .material-symbols-outlined {
     color: var(--sidebar-icon-color);
     margin-right: 8px;
     font-size: 22px;
 }
-.search-input-container .filter-button .material-icons-outlined {
+.search-input-container .filter-button .material-icons-outlined,
+.search-input-container .filter-button .material-symbols-outlined {
     margin-right: 0;
 }
 .search-input-container input[type="text"] {
