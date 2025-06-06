@@ -118,6 +118,7 @@ for (const sectionKey in allTableColumns) { visibleColumnsState[sectionKey] = {}
 const sidebar = document.getElementById('sidebar');
 const collapseButton = document.getElementById('collapseButton');
 const exitAdminButton = document.getElementById('exitAdminButton');
+const themeToggle = document.getElementById('themeToggle');
 const addButton = document.getElementById('addButton');
 const addDropdown = document.getElementById('addDropdown');
 const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
@@ -154,6 +155,13 @@ function handleHeaderOnCollapse() {
 }
 collapseButton.addEventListener('click', () => { sidebar.classList.toggle('collapsed'); handleHeaderOnCollapse(); });
 exitAdminButton.addEventListener('click', () => { alert('Saindo da Área Administrativa...'); });
+if(themeToggle){
+    themeToggle.addEventListener('click', () => {
+        const icon = themeToggle.querySelector('span');
+        document.body.classList.toggle('dark-theme');
+        icon.textContent = document.body.classList.contains('dark-theme') ? 'light_mode' : 'dark_mode';
+    });
+}
 if(addButton && addDropdown) {
     addButton.addEventListener('click', ev => {
         ev.stopPropagation();

@@ -116,17 +116,35 @@ body {
 .sidebar-nav ul li a.active .nav-icon-md { color: var(--sidebar-active-text); }
 
 .sidebar-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 12px var(--sidebar-header-h-padding);
-    border-top: 1px solid var(--border-color); 
+    border-top: 1px solid var(--border-color);
     flex-shrink: 0;
+    gap: 8px;
 }
 .sidebar-footer .exit-button {
-    display: flex; align-items: center; width: 100%;
+    display: flex; align-items: center;
     padding-left: var(--nav-link-icon-container-start);
     height: 40px; border-radius: 8px; background: none; border: none; cursor: pointer;
     color: var(--sidebar-text-color); text-decoration: none; font-size: 0.875rem;
     font-weight: 500; text-align: left;
 }
+.sidebar-footer .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sidebar-icon-color);
+}
+.sidebar-footer .theme-toggle:hover,
+.sidebar-footer .exit-button:hover { background-color: #e8eaed; }
 .sidebar-footer .exit-button .nav-icon-md {
      margin-right: var(--nav-icon-margin-right);
     width: var(--nav-link-icon-container-width); text-align: center; color: var(--sidebar-icon-color);
@@ -158,6 +176,9 @@ body {
     justify-content: center; padding: 0; width: 48px; height: 48px; border-radius: 50%; margin: 0 auto;
 }
 .sidebar.collapsed .sidebar-footer .exit-button .nav-icon-md { margin: 0; font-size: 24px; width: auto;}
+.sidebar.collapsed .sidebar-footer .theme-toggle {
+    width: 48px; height: 48px; border-radius: 50%; margin: 0 auto; padding: 0;
+}
 
 .content-panel {
     flex-grow: 1; background-color: var(--content-bg);

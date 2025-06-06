@@ -26,6 +26,17 @@
     --nav-icon-margin-right: calc(var(--nav-text-start-position) - var(--nav-link-icon-container-start) - var(--nav-link-icon-container-width));
 }
 
+body.dark-theme {
+    --sidebar-bg: #202124;
+    --sidebar-text-color: #e8eaed;
+    --sidebar-icon-color: #e8eaed;
+    --sidebar-active-bg: #3c4043;
+    --sidebar-active-text: #fff;
+    --content-bg: #303134;
+    --text-color: #e8eaed;
+    --border-color: #5f6368;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { height: 100%; }
 body {
