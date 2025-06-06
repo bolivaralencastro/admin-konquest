@@ -74,3 +74,8 @@ body {
 .btn-icon .material-icons-outlined,
 .btn-icon .material-symbols-outlined { font-size: 18px; }
 .btn-icon:hover { background-color: var(--btn-hover-bg); }
+.btn-icon.disabled,
+.btn-icon.disabled:hover {
+    opacity: 0.4;
+    pointer-events: none;
+}
