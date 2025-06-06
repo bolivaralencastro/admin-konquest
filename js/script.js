@@ -123,9 +123,73 @@ const addButton = document.getElementById('addButton');
 const addDropdown = document.getElementById('addDropdown');
 const navLinks = document.querySelectorAll('.sidebar-nav .nav-link');
 const contentPanel = document.getElementById('contentPanel');
-let currentActiveMenuSection = 'gestao-conteudos';
+let currentActiveMenuSection = 'dashboard';
 let currentActiveContentTab = 'cursos';
 let currentIntegrationFilter = 'todas';
+
+function computeDashboardStats() {
+    const uniqueAlunos = new Set();
+    matriculasCursosData.forEach(m => uniqueAlunos.add(m.usuario));
+    matriculasTrilhasData.forEach(m => uniqueAlunos.add(m.usuario));
+    matriculasEventosData.forEach(m => uniqueAlunos.add(m.aluno));
+
+    const totalMatriculasCursos = matriculasCursosData.length;
+    const totalMatriculasTrilhas = matriculasTrilhasData.length;
+    const totalMatriculasEventos = matriculasEventosData.length;
+    const totalMatriculas = totalMatriculasCursos + totalMatriculasTrilhas + totalMatriculasEventos;
+
+    const totalMatriculasConcluidas = matriculasCursosData.filter(m => m.status === 'FINALIZADA').length +
+        matriculasTrilhasData.filter(m => m.status === 'FINALIZADA').length;
+    const matriculasEmAndamento = totalMatriculas - totalMatriculasConcluidas;
+
+    const totalCursos = cursosData.length;
+    const cursosEmAndamento = new Set(matriculasCursosData.filter(m => m.status !== 'FINALIZADA').map(m => m.nomeMissao)).size;
+
+    const acessosPorDia = [];
+    let acessosTotaisSemana = 0;
+    for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const qtd = Math.floor(Math.random() * 50) + 10;
+        acessosTotaisSemana += qtd;
+        acessosPorDia.push({ dia: `${d.getDate()}/${d.getMonth()+1}`, acessos: qtd });
+    }
+    const alunosArr = Array.from(uniqueAlunos);
+    const ranking = alunosArr.slice(0,5).map(nome => ({ nome, pontos: Math.floor(Math.random()*1000) }))
+        .sort((a,b) => b.pontos - a.pontos);
+
+    return { totalAlunos: uniqueAlunos.size, totalMatriculas, totalMatriculasConcluidas,
+        matriculasEmAndamento, totalCursos, cursosComMatriculasEmAndamento: cursosEmAndamento,
+        totalNormativosMatriculas: 0, acessosTotaisSemana, acessosPorDia, ranking };
+}
+
+function renderDashboard() {
+    const stats = computeDashboardStats();
+    const cards = `
+        <div class="dashboard-grid">
+            <div class="dashboard-card"><h3>Total de alunos inscritos</h3><p>${stats.totalAlunos}</p></div>
+            <div class="dashboard-card"><h3>Total de matrículas</h3><p>${stats.totalMatriculas}</p></div>
+            <div class="dashboard-card"><h3>Matrículas concluídas</h3><p>${stats.totalMatriculasConcluidas}</p></div>
+            <div class="dashboard-card"><h3>Matrículas em andamento</h3><p>${stats.matriculasEmAndamento}</p></div>
+            <div class="dashboard-card"><h3>Cursos criados</h3><p>${stats.totalCursos}</p></div>
+            <div class="dashboard-card"><h3>Cursos com matrículas em andamento</h3><p>${stats.cursosComMatriculasEmAndamento}</p></div>
+            <div class="dashboard-card"><h3>Matrículas em cursos normativos</h3><p>${stats.totalNormativosMatriculas}</p></div>
+            <div class="dashboard-card"><h3>Acessos na semana</h3><p>${stats.acessosTotaisSemana}</p></div>
+        </div>`;
+    const rankingItems = stats.ranking.map((r,i) => `<li>${i+1}. ${r.nome} - ${r.pontos} pts</li>`).join('');
+    const acessosItems = stats.acessosPorDia.map(d => `<li>${d.dia}: ${d.acessos}</li>`).join('');
+    return `
+        <div class="content-header-no-tabs"><span class="section-title">Dashboard</span></div>
+        ${cards}
+        <div class="dashboard-section">
+            <h3>Ranking Gamificação</h3>
+            <ol class="dashboard-ranking">${rankingItems}</ol>
+        </div>
+        <div class="dashboard-section">
+            <h3>Acessos - Última Semana</h3>
+            <ul class="dashboard-accesses">${acessosItems}</ul>
+        </div>`;
+}
 
 function filterCurrentTable(sectionId) {
     let tableId = sectionId;
@@ -578,7 +642,9 @@ function loadSectionContent(sectionId) {
     else if (sectionId === "layout") sectionTitle = "Identidade Visual";
     else if (sectionId === "integracoes") sectionTitle = "Integrações";
 
-    if (sectionId === 'geral') {
+    if (sectionId === 'dashboard') {
+        contentPanel.innerHTML = renderDashboard();
+    } else if (sectionId === 'geral') {
         let headerHtml = `<div class="content-header-no-tabs"><span class="section-title">${sectionTitle}</span></div>`;
         contentPanel.innerHTML = headerHtml + `<div class="section-content-area">${renderGeneralSettings()}</div>`;
         document.getElementById('savePerformance')?.addEventListener('click', () => {
@@ -687,7 +753,8 @@ function loadSectionContent(sectionId) {
 
 document.addEventListener('DOMContentLoaded', () => {
     navLinks.forEach(l => l.classList.remove('active'));
-    const defaultActiveLink = document.querySelector('.nav-link[data-section="gestao-conteudos"]');
+    const defaultActiveLink = document.querySelector('.nav-link[data-section="dashboard"]') ||
+        document.querySelector('.nav-link[data-section="gestao-conteudos"]');
     if(defaultActiveLink) {
         defaultActiveLink.classList.add('active');
         currentActiveMenuSection = defaultActiveLink.dataset.section;
