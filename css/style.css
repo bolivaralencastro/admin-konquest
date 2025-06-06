@@ -127,9 +127,9 @@ body {
 .sidebar-footer .exit-button {
     display: flex; align-items: center;
     padding-left: var(--nav-link-icon-container-start);
-    height: 40px; border-radius: 8px; background: none; border: none; cursor: pointer;
+    height: 32px; border-radius: 8px; background: none; border: none; cursor: pointer;
     color: var(--sidebar-text-color); text-decoration: none; font-size: 0.875rem;
-    font-weight: 500; text-align: left;
+    font-weight: 500; text-align: left; margin-right: 12px;
 }
 .sidebar-footer .theme-toggle {
     width: 40px;
