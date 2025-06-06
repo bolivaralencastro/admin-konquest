@@ -76,7 +76,14 @@ const normativasData = [
     { id: 4, titulo: "Política de Privacidade", versao: "3.1", status: "Publicado", dataPublicacao: "2023-03-22", iconName: 'update' },
     { id: 5, titulo: "Procedimento de Backup", versao: "1.5", status: "Em Revisão", dataPublicacao: "2023-07-01", iconName: 'update' }
 ];
- const integrationsData = [
+const transferenciasData = [
+    { id: 1, nome: "Introdução à Plataforma", acao: "Transferida", enviadoPor: "Admin Principal", origem: "Workspace A", destino: "Workspace B", data: "02/05/2024", matriculas: 120, iconName: 'rocket_launch' },
+    { id: 2, nome: "Curso de Atendimento", acao: "Duplicada", enviadoPor: "Maria Silva", origem: "Workspace B", destino: "Workspace C", data: "10/05/2024", matriculas: 80, iconName: 'rocket_launch' },
+    { id: 3, nome: "Treinamento de Vendas", acao: "Compartilhada", enviadoPor: "João Souza", origem: "Workspace C", destino: "Workspace D", data: "18/05/2024", matriculas: 50, iconName: 'rocket_launch' },
+    { id: 4, nome: "Formação Liderança", acao: "Transferida", enviadoPor: "Ana Lima", origem: "Workspace D", destino: "Workspace A", data: "22/05/2024", matriculas: 95, iconName: 'rocket_launch' },
+    { id: 5, nome: "Marketing Digital", acao: "Compartilhada", enviadoPor: "Carlos Melo", origem: "Workspace A", destino: "Workspace C", data: "30/05/2024", matriculas: 30, iconName: 'rocket_launch' }
+];
+const integrationsData = [
     { id: 'slack', name: 'Slack', category: 'Comunicação', logoIcon: 'forum', description: 'Integre sua plataforma de aprendizado com o Slack para notificações e engajamento em tempo real.', tags: ['Notificações automáticas', 'Compartilhamento de conteúdo', 'Comunicação em tempo real', '+1'], active: true },
     { id: 'msteams', name: 'Microsoft Teams', category: 'Comunicação', logoIcon: 'groups', description: 'Conecte sua plataforma ao Microsoft Teams para colaboração e comunicação eficiente.', tags: ['Reuniões integradas', 'Compartilhamento de recursos', 'Colaboração em equipe', '+1'], active: false },
     { id: 'zoom', name: 'Zoom', category: 'Comunicação', logoIcon: 'videocam', description: 'Integre o Zoom para realizar sessões de aprendizado ao vivo e webinars diretamente.', tags: ['Sessões ao vivo', 'Gravação automática', 'Agendamento integrado', '+1'], active: true },
@@ -96,9 +103,19 @@ const allTableColumns = {
     matriculas_eventos: [ { key: "aluno", label: "Aluno" }, {key: "evento", label: "Evento"}, {key: "presenca", label: "Presença"}, {key: "acoes", label: "Ações"}],
     grupos: [ { key: "nome", label: "Nome" }, { key: "trilhas", label: "Trilhas" }, { key: "missoes", label: "Missões" }, { key: "canais", label: "Canais" }, { key: "usuarios", label: "Usuários" }, {key: "acoes", label: "Ações"} ],
     categorias: [ { key: "nome", label: "Nome" }, { key: "missoes", label: "Missões" }, { key: "canais", label: "Canais" }, {key: "acoes", label: "Ações"} ],
-    normativas: [ { key: "titulo", label: "Título" }, { key: "versao", label: "Versão" }, { key: "status", label: "Status" }, { key: "dataPublicacao", label: "Publicação" }, {key: "acoes", label: "Ações"}]
+    normativas: [ { key: "titulo", label: "Título" }, { key: "versao", label: "Versão" }, { key: "status", label: "Status" }, { key: "dataPublicacao", label: "Publicação" }, {key: "acoes", label: "Ações"}],
+    transferencias: [
+        { key: "nome", label: "Nome" },
+        { key: "acao", label: "Ação" },
+        { key: "enviadoPor", label: "Env. por" },
+        { key: "origem", label: "Orig." },
+        { key: "destino", label: "Dest." },
+        { key: "data", label: "Data" },
+        { key: "matriculas", label: "Matric." },
+        { key: "acoes", label: "Ações" }
+    ]
 };
-const tableDataSources = { trilhas: trilhasData, cursos: cursosData, canais: canaisData, pulses: pulsesData, eventos: eventosData, matriculas_cursos: matriculasCursosData, matriculas_trilhas: matriculasTrilhasData, matriculas_eventos: matriculasEventosData, grupos: gruposData, categorias: categoriasData, normativas: normativasData };
+const tableDataSources = { trilhas: trilhasData, cursos: cursosData, canais: canaisData, pulses: pulsesData, eventos: eventosData, matriculas_cursos: matriculasCursosData, matriculas_trilhas: matriculasTrilhasData, matriculas_eventos: matriculasEventosData, grupos: gruposData, categorias: categoriasData, normativas: normativasData, transferencias: transferenciasData };
 const sectionIcons = {
     cursos: 'rocket_launch',
     trilhas: 'conversion_path',
@@ -110,7 +127,8 @@ const sectionIcons = {
     normativas: 'update',
     matriculas_cursos: 'rocket_launch',
     matriculas_trilhas: 'conversion_path',
-    matriculas_eventos: 'calendar_month'
+    matriculas_eventos: 'calendar_month',
+    transferencias: 'rocket_launch'
 };
 let visibleColumnsState = {};
 for (const sectionKey in allTableColumns) { visibleColumnsState[sectionKey] = {}; allTableColumns[sectionKey].forEach(col => { if (col.key !== 'acoes') { visibleColumnsState[sectionKey][col.key] = true; } }); }
@@ -632,7 +650,7 @@ function loadTabContent(tabId) {
 function loadSectionContent(sectionId) {
     contentPanel.innerHTML = '';
     const hasTabsForTables = sectionId === 'gestao-conteudos' || sectionId === 'matriculas';
-    const usesSimpleTable = ['grupos', 'categorias', 'normativas'].includes(sectionId);
+    const usesSimpleTable = ['grupos', 'categorias', 'normativas', 'transferencias'].includes(sectionId);
 
     let sectionTitle = sectionId.charAt(0).toUpperCase() + sectionId.slice(1);
     if (sectionId === "matriculas") sectionTitle = "Matrículas";
@@ -708,7 +726,7 @@ function loadSectionContent(sectionId) {
                         </button>
                     </div>
                 </div>`;
-        if(sectionId !== 'grupos' && sectionId !== 'categorias') {
+        if(sectionId !== 'grupos' && sectionId !== 'categorias' && sectionId !== 'transferencias') {
             headerHtml += `
                 <div class="content-header-actions">
                     <button class="header-button" id="directCreateButton" title="Criar Novo ${sectionTitle}">
@@ -740,6 +758,9 @@ function loadSectionContent(sectionId) {
             setupTableCheckboxes(`table-${sectionId}`);
             addColumnToggleListeners(sectionId, allPossibleColumnsForSection); // Passa todas as colunas para o dropdown
             filterCurrentTable(sectionId);
+            if(sectionId === 'transferencias') {
+                setupTransferenciasRowActions();
+            }
         } else if (contentArea) { contentArea.innerHTML = `<p class="generic-content-placeholder">Dados para ${sectionTitle} não encontrados.</p>`; }
     } else {
         contentPanel.innerHTML = `
@@ -812,11 +833,12 @@ function createRowActionsDropdown(item, sectionId) {
 // Função para adicionar listeners aos botões de três pontinhos
 function setupRowActionsDropdowns(sectionId) {
     // Só aplica para as seções desejadas
-    const allowedSections = ['cursos', 'trilhas', 'eventos', 'canais', 'pulses'];
+    const allowedSections = ['cursos', 'trilhas', 'eventos', 'canais', 'pulses', 'transferencias'];
     if (!allowedSections.includes(sectionId)) return;
     const table = document.getElementById(`table-${sectionId}`);
     if (!table) return;
     table.querySelectorAll('.btn-icon.more').forEach((btn, idx) => {
+        if (btn.classList.contains('disabled')) return;
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
             // Remove outros dropdowns abertos
@@ -883,6 +905,25 @@ function setupGrupoRowNavigation() {
             }
         });
     });
+}
+
+function setupTransferenciasRowActions() {
+    const table = document.getElementById('table-transferencias');
+    if (!table) return;
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach((row, idx) => {
+        const item = transferenciasData[idx];
+        const moreBtn = row.querySelector('.btn-icon.more');
+        const viewBtn = row.querySelector('.btn-icon.view');
+        const deleteBtn = row.querySelector('.btn-icon.delete');
+        viewBtn?.remove();
+        deleteBtn?.remove();
+        if (!item || item.acao !== 'Compartilhada') {
+            moreBtn?.classList.add('disabled');
+            if(moreBtn) moreBtn.title = 'Ação disponível apenas para compartilhamentos';
+        }
+    });
+    setupRowActionsDropdowns('transferencias');
 }
 
 // Chamar após renderização da tabela de grupos
