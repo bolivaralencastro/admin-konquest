@@ -53,10 +53,17 @@ body {
 .add-button .material-symbols-outlined { font-size: 24px; }
 .add-button:hover { background-color: rgba(0,0,0,0.08); }
 .fab-dropdown {
-    display: none; position: absolute; top: 0; left: 0;
-    background: #fff; border: 1px solid var(--border-color); border-radius: 10px;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
     box-shadow: 0 8px 32px rgba(60,64,67,0.18), 0 1.5px 4px rgba(60,64,67,0.10);
-    padding: 8px 0; min-width: 180px; z-index: 1000;
+    padding: 8px 0;
+    min-width: 180px;
+    z-index: 1000;
 }
 .fab-dropdown .dropdown-item {
     padding: 10px 16px; cursor: pointer; font-size: 0.9rem; color: var(--text-color);
