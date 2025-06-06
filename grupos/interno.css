@@ -134,6 +134,7 @@ tr:hover { background-color: var(--row-hover-bg); }
 .content-header-no-tabs .header-search { flex: 1; display: flex; align-items: center; max-width: 300px; }
 .content-header-no-tabs .header-search .search-input-container {
     flex: 1;
+    padding-left: 16px;
 }
 .section-title.grupo-titulo { margin-left: 8px; }
 .header-button.icon-btn { margin-right: 0; }
