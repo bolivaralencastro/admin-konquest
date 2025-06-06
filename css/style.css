@@ -23,6 +23,10 @@ body {
     transition: padding 0.2s ease-in-out, justify-content 0.2s ease-in-out;
     flex-shrink: 0;
 }
+body.dark-theme .sidebar,
+body.dark-theme .sidebar-header {
+    background-color: var(--sidebar-bg);
+}
 .sidebar-header .header-button {
     background: none; border: none; font-size: 1.2em; cursor: pointer; color: var(--sidebar-icon-color);
     padding: 0; border-radius: 50%; width: var(--sidebar-header-icon-area-width); height: var(--sidebar-header-icon-area-width);
