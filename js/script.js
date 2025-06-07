@@ -183,6 +183,12 @@ function computeDashboardStats() {
 
 function renderDashboard() {
     const stats = computeDashboardStats();
+    const rankingItems = stats.ranking
+        .map((r, i) => `<li>${i + 1}. ${r.nome} - ${r.pontos} pts</li>`) 
+        .join('');
+    const acessosItems = stats.acessosPorDia
+        .map(d => `<li>${d.dia}: ${d.acessos}</li>`) 
+        .join('');
     const cards = `
         <div class="dashboard-grid">
             <div class="dashboard-card"><h3>Total de alunos inscritos</h3><p>${stats.totalAlunos}</p></div>
@@ -193,20 +199,18 @@ function renderDashboard() {
             <div class="dashboard-card"><h3>Cursos com matrículas em andamento</h3><p>${stats.cursosComMatriculasEmAndamento}</p></div>
             <div class="dashboard-card"><h3>Matrículas em cursos normativos</h3><p>${stats.totalNormativosMatriculas}</p></div>
             <div class="dashboard-card"><h3>Acessos na semana</h3><p>${stats.acessosTotaisSemana}</p></div>
+            <div class="dashboard-card ranking-card list-card">
+                <h3>Ranking Gamificação</h3>
+                <ol class="dashboard-ranking">${rankingItems}</ol>
+            </div>
+            <div class="dashboard-card accesses-card list-card">
+                <h3>Acessos - Última Semana</h3>
+                <ul class="dashboard-accesses">${acessosItems}</ul>
+            </div>
         </div>`;
-    const rankingItems = stats.ranking.map((r,i) => `<li>${i+1}. ${r.nome} - ${r.pontos} pts</li>`).join('');
-    const acessosItems = stats.acessosPorDia.map(d => `<li>${d.dia}: ${d.acessos}</li>`).join('');
     return `
         <div class="content-header-no-tabs"><span class="section-title">Dashboard</span></div>
-        ${cards}
-        <div class="dashboard-section">
-            <h3>Ranking Gamificação</h3>
-            <ol class="dashboard-ranking">${rankingItems}</ol>
-        </div>
-        <div class="dashboard-section">
-            <h3>Acessos - Última Semana</h3>
-            <ul class="dashboard-accesses">${acessosItems}</ul>
-        </div>`;
+        ${cards}`;
 }
 
 function filterCurrentTable(sectionId) {
