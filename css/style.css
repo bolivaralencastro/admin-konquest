@@ -677,3 +677,17 @@ td.cell-actions {
 .dashboard-accesses {
   margin: 8px 0 0 20px;
 }
+
+.dashboard-card.list-card {
+  text-align: left;
+  grid-column: span 2;
+}
+.dashboard-card.list-card ol,
+.dashboard-card.list-card ul {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 0.9rem;
+}
+.dashboard-card.list-card li {
+  margin-bottom: 4px;
+}
