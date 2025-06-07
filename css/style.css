@@ -691,3 +691,39 @@ td.cell-actions {
 .dashboard-card.list-card li {
   margin-bottom: 4px;
 }
+
+/* Dashboard bar chart */
+.dashboard-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 140px;
+  margin-top: 8px;
+}
+
+.bar-chart .bar {
+  flex: 1;
+  margin: 0 4px;
+  background: var(--primary-color);
+  border-radius: 4px 4px 0 0;
+  position: relative;
+}
+
+.bar-chart .bar span {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.75rem;
+}
+
+.bar-chart .bar label {
+  display: block;
+  margin-top: 4px;
+  text-align: center;
+  font-size: 0.75rem;
+}

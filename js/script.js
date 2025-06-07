@@ -184,13 +184,21 @@ function computeDashboardStats() {
 function renderDashboard() {
     const stats = computeDashboardStats();
     const rankingItems = stats.ranking
-        .map((r, i) => `<li>${i + 1}. ${r.nome} - ${r.pontos} pts</li>`) 
+        .map((r, i) => `<li>${i + 1}. ${r.nome} - ${r.pontos} pts</li>`)
         .join('');
-    const acessosItems = stats.acessosPorDia
-        .map(d => `<li>${d.dia}: ${d.acessos}</li>`) 
+    const maxAcessos = Math.max(...stats.acessosPorDia.map(d => d.acessos));
+    const acessosBars = stats.acessosPorDia
+        .map(d => {
+            const height = (d.acessos / maxAcessos) * 100;
+            return `<div class="bar" style="height:${height}%"><span>${d.acessos}</span><label>${d.dia}</label></div>`;
+        })
         .join('');
     const cards = `
         <div class="dashboard-grid">
+            <div class="dashboard-card full-width accesses-chart">
+                <h3>Acessos - Última Semana</h3>
+                <div class="bar-chart">${acessosBars}</div>
+            </div>
             <div class="dashboard-card"><h3>Total de alunos inscritos</h3><p>${stats.totalAlunos}</p></div>
             <div class="dashboard-card"><h3>Total de matrículas</h3><p>${stats.totalMatriculas}</p></div>
             <div class="dashboard-card"><h3>Matrículas concluídas</h3><p>${stats.totalMatriculasConcluidas}</p></div>
@@ -198,14 +206,9 @@ function renderDashboard() {
             <div class="dashboard-card"><h3>Cursos criados</h3><p>${stats.totalCursos}</p></div>
             <div class="dashboard-card"><h3>Cursos com matrículas em andamento</h3><p>${stats.cursosComMatriculasEmAndamento}</p></div>
             <div class="dashboard-card"><h3>Matrículas em cursos normativos</h3><p>${stats.totalNormativosMatriculas}</p></div>
-            <div class="dashboard-card"><h3>Acessos na semana</h3><p>${stats.acessosTotaisSemana}</p></div>
             <div class="dashboard-card ranking-card list-card">
                 <h3>Ranking Gamificação</h3>
                 <ol class="dashboard-ranking">${rankingItems}</ol>
-            </div>
-            <div class="dashboard-card accesses-card list-card">
-                <h3>Acessos - Última Semana</h3>
-                <ul class="dashboard-accesses">${acessosItems}</ul>
             </div>
         </div>`;
     return `
