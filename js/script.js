@@ -94,7 +94,21 @@ const integrationsData = [
 
 const allTableColumns = {
     trilhas: [ { key: "titulo", label: "Título" }, { key: "cursos", label: "Cursos" }, { key: "status", label: "Status" }, {key: "acoes", label: "Ações"}],
-    cursos: [ { key: "titulo", label: "Título" }, { key: "tipo", label: "Tipo" }, { key: "status", label: "Status" }, {key: "acoes", label: "Ações"}],
+    cursos: [
+        { key: "titulo", label: "Título" },
+        { key: "status", label: "Status" },
+        { key: "inscritos", label: "Inscritos" },
+        { key: "finalizados", label: "Finalizados" },
+        { key: "taxaConclusao", label: "Taxa de Conclusão" },
+        { key: "duracao", label: "Duração Recomendada" },
+        { key: "autor", label: "Autor/Criador" },
+        { key: "dataModificacao", label: "Data de Modificação" },
+        { key: "idioma", label: "Idioma" },
+        { key: "conteudos", label: "Conteúdos" },
+        { key: "dataEdicao", label: "Data de Edição" },
+        { key: "categoria", label: "Categoria" },
+        { key: "acoes", label: "Ações" }
+    ],
     canais: [ { key: "nome", label: "Nome do Canal" }, { key: "tipo", label: "Tipo" }, { key: "criador", label: "Criador" }, { key: "seguidores", label: "Seguidores" }, {key: "acoes", label: "Ações"}],
     pulses: [ { key: "titulo", label: "Título do Pulse" }, { key: "tipo", label: "Tipo" }, { key: "canal", label: "Canal Associado" }, { key: "visualizacoes", label: "Visualizações" }, {key: "acoes", label: "Ações"}],
     eventos: [ { key: "nome", label: "Nome" }, { key: "data", label: "Data" }, { key: "tipo", label: "Tipo" }, { key: "status", label: "Status" }, {key: "acoes", label: "Ações"}],
@@ -130,7 +144,18 @@ const sectionIcons = {
     matriculas_eventos: 'calendar_month',
     transferencias: 'rocket_launch'
 };
-let visibleColumnsState = {};
+// Colunas ativas previamente para cursos
+let visibleColumnsState = visibleColumnsState || {};
+visibleColumnsState.cursos = {
+    titulo: true,
+    categoria: true,
+    autor: true,
+    dataCriacao: true,
+    idioma: true,
+    inscritos: true,
+    finalizados: true,
+    status: true
+};
 for (const sectionKey in allTableColumns) { visibleColumnsState[sectionKey] = {}; allTableColumns[sectionKey].forEach(col => { if (col.key !== 'acoes') { visibleColumnsState[sectionKey][col.key] = true; } }); }
 
 const sidebar = document.getElementById('sidebar');
@@ -379,13 +404,124 @@ function renderIntegrationCards() { /* ... (Idêntico) ... */ }
 renderIntegrationCards = function() { const grid = document.getElementById('integrationsGrid'); if (!grid) return; grid.innerHTML = ''; const searchTerm = document.getElementById('search-integrations')?.value.toLowerCase() || ''; const filteredData = integrationsData.filter(integration => { const matchesFilter = (currentIntegrationFilter === 'todas') || (currentIntegrationFilter === 'ativas' && integration.active) || (currentIntegrationFilter === 'inativas' && !integration.active); const matchesSearch = !searchTerm || integration.name.toLowerCase().includes(searchTerm) || integration.category.toLowerCase().includes(searchTerm) || integration.description.toLowerCase().includes(searchTerm); return matchesFilter && matchesSearch; }); if (filteredData.length === 0) { grid.innerHTML = `<p style="padding: 24px; text-align: center; color: var(--sidebar-icon-color);">Nenhuma integração encontrada.</p>`; return; } filteredData.forEach(integration => { const card = document.createElement('div'); card.className = 'integration-card'; card.innerHTML = `<div class="integration-card-header"> <div class="integration-card-info"> <div class="integration-card-logo"> ${integration.logoIcon ? `<span class="material-symbols-outlined">${integration.logoIcon}</span>` : ''} </div> <div> <div class="integration-card-name">${integration.name}</div> <div class="integration-card-category">${integration.category}</div> </div> </div> <label class="integration-card-toggle"> <input type="checkbox" ${integration.active ? 'checked' : ''} data-id="${integration.id}"> <span class="slider"></span> </label> </div> <p class="integration-card-description">${integration.description}</p> <div class="integration-card-tags"> ${integration.tags.map(tag => `<span class="tag">${tag}</span>`).join('')} </div> <div class="integration-card-footer"> <a href="#" class="details-link" onclick="alert('Ver detalhes: ${integration.name}')"> Ver detalhes <span class="material-symbols-outlined">chevron_right</span> </a> <button class="btn config-button" onclick="alert('Configurar: ${integration.name}')"> <span class="material-symbols-outlined">settings</span> Configurar </button> </div>`; grid.appendChild(card); }); document.querySelectorAll('.integration-card-toggle input').forEach(toggle => { toggle.addEventListener('change', function() { const integrationId = this.dataset.id; const integration = integrationsData.find(i => i.id === integrationId); if (integration) { integration.active = this.checked; if ((currentIntegrationFilter === 'ativas' && !integration.active) || (currentIntegrationFilter === 'inativas' && integration.active)) { renderIntegrationCards(); } document.querySelector('.tab-item[data-filter="ativas"]').textContent = `Ativas (${integrationsData.filter(i => i.active).length})`; document.querySelector('.tab-item[data-filter="inativas"]').textContent = `Inativas (${integrationsData.filter(i => !i.active).length})`; } }); }); }
 
 function renderLayoutSettings() { /* ... (Idêntico) ... */ }
-renderLayoutSettings = function() { const predefinedColors = [ { primary: '#8A2BE2', secondary: '#C6A4E7' }, { primary: '#FF3B30', secondary: '#FF9500' }, { primary: '#34C759', secondary: '#30D158' }, { primary: '#007AFF', secondary: '#5856D6' }, { primary: '#AF52DE', secondary: '#FF2D55' }, { primary: '#FF9500', secondary: '#FFCC00' } ]; let currentColor = { primary: '#673AB7', secondary: '#9F73E5' }; let html = `<div class="settings-section-card"><h3>Logo da plataforma</h3> <div class="logo-uploaders"> <div class="logo-uploader"> <div class="logo-preview-box" id="logoLightUploader" title="Clique para carregar logo para tema claro"> <span class="material-symbols-outlined">upload_file</span> <span>Logo para tema claro</span> </div> <small>Recomendado: PNG com fundo transparente</small> </div> <div class="logo-uploader"> <div class="logo-preview-box" id="logoDarkUploader" title="Clique para carregar logo para tema escuro"> <span class="material-symbols-outlined">upload_file</span> <span>Logo para tema escuro</span> </div> <small>Recomendado: PNG com fundo transparente</small> </div> </div> <input type="file" id="logoLightFile" accept="image/*" style="display:none;"> <input type="file" id="logoDarkFile" accept="image/*" style="display:none;"> <h3>Cor principal</h3> <div class="color-palette" id="colorPalette">`; predefinedColors.forEach((colorPair) => { html += `<div class="color-swatch" title="Primária: ${colorPair.primary}" style="background-color: ${colorPair.primary};" data-primary="${colorPair.primary}" data-secondary="${colorPair.secondary}"> <span class="material-symbols-outlined" style="opacity:0;">check</span> </div>`; }); html += `</div> <div class="custom-color-input"> <label for="customColorHex">Cor customizada:</label> <input type="text" id="customColorHex" value="${currentColor.primary}" maxlength="7"> <div class="color-preview-inline" id="customColorPreview" style="background-color: ${currentColor.primary};"></div> </div> </div>`; html += `<div class="settings-section-card"> <h3 style="margin-top:0; border-bottom:none; padding-bottom:0;">Tema da plataforma</h3> <p class="description">Escolha entre tema claro ou escuro para sua workspace.</p> <div class="theme-selector" id="themeSelector"> <div class="theme-option active" data-theme="dark"> <span class="material-symbols-outlined">dark_mode</span> Dark </div> <div class="theme-option" data-theme="light"> <span class="material-symbols-outlined">light_mode</span> Light </div> <div class="theme-option" data-theme="system">  Sistema </div> </div> </div>`; html += `<div class="layout-actions"> `; return html; }
+renderLayoutSettings = function() {
+    const predefinedColors = [
+        { primary: '#8A2BE2', secondary: '#C6A4E7' },
+        { primary: '#FF3B30', secondary: '#FF9500' },
+        { primary: '#34C759', secondary: '#30D158' },
+        { primary: '#007AFF', secondary: '#5856D6' },
+        { primary: '#AF52DE', secondary: '#FF2D55' },
+        { primary: '#FF9500', secondary: '#FFCC00' }
+    ];
+    let currentColor = { primary: '#673AB7', secondary: '#9F73E5' };
+    let html = `<div class="settings-section-card"><h3>Logo da plataforma</h3> <div class="logo-uploaders"> <div class="logo-uploader"> <div class="logo-preview-box" id="logoLightUploader" title="Clique para carregar logo para tema claro"> <span class="material-symbols-outlined">upload_file</span> <span>Logo para tema claro</span> </div> <small>Recomendado: PNG com fundo transparente</small> </div> <div class="logo-uploader"> <div class="logo-preview-box" id="logoDarkUploader" title="Clique para carregar logo para tema escuro"> <span class="material-symbols-outlined">upload_file</span> <span>Logo para tema escuro</span> </div> <small>Recomendado: PNG com fundo transparente</small> </div> </div> <input type="file" id="logoLightFile" accept="image/*" style="display:none;"> <input type="file" id="logoDarkFile" accept="image/*" style="display:none;"> <h3>Cor principal</h3> <div class="color-palette" id="colorPalette">`;
+    predefinedColors.forEach((colorPair) => {
+        html += `<div class="color-swatch" title="Primária: ${colorPair.primary}" style="background-color: ${colorPair.primary};" data-primary="${colorPair.primary}" data-secondary="${colorPair.secondary}"> <span class="material-symbols-outlined" style="opacity:0;">check</span> </div>`;
+    });
+    html += `</div> <div class="custom-color-input"> <label for="customColorHex">Cor customizada:</label> <input type="text" id="customColorHex" value="${currentColor.primary}" maxlength="7"> <div class="color-preview-inline" id="customColorPreview" style="background-color: ${currentColor.primary};"></div> </div> </div>`;
+    html += `<div class="settings-section-card"> <h3 style="margin-top:0; border-bottom:none; padding-bottom:0;">Tema da plataforma</h3> <p class="description">Escolha entre tema claro ou escuro para sua workspace.</p> <div class="theme-selector" id="themeSelector"> <div class="theme-option active" data-theme="dark"> <span class="material-symbols-outlined">dark_mode</span> Dark </div> <div class="theme-option" data-theme="light"> <span class="material-symbols-outlined">light_mode</span> Light </div> <div class="theme-option" data-theme="system">  Sistema </div> </div> </div>`;
+    html += `<div class="layout-actions"> `;
+    return html;
+}
 
 function addLayoutSettingsListeners() { /* ... (Idêntico) ... */ }
-addLayoutSettingsListeners = function() { document.getElementById('logoLightUploader')?.addEventListener('click', () => document.getElementById('logoLightFile').click()); document.getElementById('logoDarkUploader')?.addEventListener('click', () => document.getElementById('logoDarkFile').click()); document.getElementById('logoLightFile')?.addEventListener('change', function(e) { if (e.target.files && e.target.files[0]) { alert(`Logo tema claro: ${e.target.files[0].name}`); } }); document.getElementById('logoDarkFile')?.addEventListener('change', function(e) { if (e.target.files && e.target.files[0]) { alert(`Logo tema escuro: ${e.target.files[0].name}`); } }); const colorSwatches = document.querySelectorAll('#colorPalette .color-swatch'); const customColorHexInput = document.getElementById('customColorHex'); const customColorPreview = document.getElementById('customColorPreview'); function setActiveColor(selectedSwatch) { colorSwatches.forEach(sw => { sw.classList.remove('active'); sw.querySelector('.material-symbols-outlined').style.opacity = '0'; }); if (selectedSwatch) { selectedSwatch.classList.add('active'); selectedSwatch.querySelector('.material-symbols-outlined').style.opacity = '1'; const primaryColor = selectedSwatch.dataset.primary; if (customColorHexInput) customColorHexInput.value = primaryColor; if (customColorPreview) customColorPreview.style.backgroundColor = primaryColor; console.log("Cor primária:", primaryColor); } } colorSwatches.forEach(swatch => { swatch.addEventListener('click', () => setActiveColor(swatch)); }); customColorHexInput?.addEventListener('input', function() { let color = this.value; if (/^#([0-9A-Fa-f]{3}){1,2}$/.test(color)) { if (customColorPreview) customColorPreview.style.backgroundColor = color; colorSwatches.forEach(sw => { sw.classList.remove('active'); sw.querySelector('.material-symbols-outlined').style.opacity = '0'; }); console.log("Cor customizada:", color); } }); if (colorSwatches.length > 0) { setActiveColor(colorSwatches[0]); } const themeOptions = document.querySelectorAll('#themeSelector .theme-option'); themeOptions.forEach(option => { option.addEventListener('click', function() { themeOptions.forEach(opt => opt.classList.remove('active')); this.classList.add('active'); const selectedTheme = this.dataset.theme; alert(`Tema: ${selectedTheme}`); }); }); document.getElementById('saveLayoutSettings')?.addEventListener('click', () => { const selectedColor = document.querySelector('#colorPalette .color-swatch.active')?.dataset.primary || customColorHexInput.value; const selectedTheme = document.querySelector('#themeSelector .theme-option.active')?.dataset.theme; alert(`Salvo!\nCor: ${selectedColor}\nTema: ${selectedTheme}`); }); }
+addLayoutSettingsListeners = function() {
+    document.getElementById('logoLightUploader')?.addEventListener('click', () => document.getElementById('logoLightFile').click());
+    document.getElementById('logoDarkUploader')?.addEventListener('click', () => document.getElementById('logoDarkFile').click());
+    document.getElementById('logoLightFile')?.addEventListener('change', function(e) { if (e.target.files && e.target.files[0]) { alert(`Logo tema claro: ${e.target.files[0].name}`); } });
+    document.getElementById('logoDarkFile')?.addEventListener('change', function(e) { if (e.target.files && e.target.files[0]) { alert(`Logo tema escuro: ${e.target.files[0].name}`); } });
+    const colorSwatches = document.querySelectorAll('#colorPalette .color-swatch');
+    const customColorHexInput = document.getElementById('customColorHex');
+    const customColorPreview = document.getElementById('customColorPreview');
+    function setActiveColor(selectedSwatch) {
+        colorSwatches.forEach(sw => { sw.classList.remove('active'); sw.querySelector('.material-symbols-outlined').style.opacity = '0'; });
+        if (selectedSwatch) {
+            selectedSwatch.classList.add('active');
+            selectedSwatch.querySelector('.material-symbols-outlined').style.opacity = '1';
+            const primaryColor = selectedSwatch.dataset.primary;
+            if (customColorHexInput) customColorHexInput.value = primaryColor;
+            if (customColorPreview) customColorPreview.style.backgroundColor = primaryColor;
+            console.log("Cor primária:", primaryColor);
+        }
+    }
+    colorSwatches.forEach(swatch => {
+        swatch.addEventListener('click', () => setActiveColor(swatch));
+    });
+    customColorHexInput?.addEventListener('input', function() {
+        let color = this.value;
+        if (/^#([0-9A-Fa-f]{3}){1,2}$/.test(color)) {
+            if (customColorPreview) customColorPreview.style.backgroundColor = color;
+            colorSwatches.forEach(sw => { sw.classList.remove('active'); sw.querySelector('.material-symbols-outlined').style.opacity = '0'; });
+            console.log("Cor customizada:", color);
+        }
+    });
+    if (colorSwatches.length > 0) {
+        setActiveColor(colorSwatches[0]);
+    }
+    const themeOptions = document.querySelectorAll('#themeSelector .theme-option');
+    themeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            themeOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            const selectedTheme = this.dataset.theme;
+            alert(`Tema: ${selectedTheme}`);
+        });
+    });
+    document.getElementById('saveLayoutSettings')?.addEventListener('click', () => {
+        const selectedColor = document.querySelector('#colorPalette .color-swatch.active')?.dataset.primary || customColorHexInput.value;
+        const selectedTheme = document.querySelector('#themeSelector .theme-option.active')?.dataset.theme;
+        alert(`Salvo!\nCor: ${selectedColor}\nTema: ${selectedTheme}`);
+    });
+}
 
 function renderGeneralSettings() { /* ... (Idêntico) ... */ }
-renderGeneralSettings = function() { const modulos = [ { id: 'dashboard', label: 'Dashboard', checked: true, icon: 'dashboard' }, { id: 'trilhas', label: 'Trilhas', checked: true, icon: 'signpost' }, { id: 'missoes', label: 'Missões', checked: true, icon: 'school' }, { id: 'eventos', label: 'Eventos', checked: true, icon: 'event' }, { id: 'pulses', label: 'Pulses', checked: true, icon: 'campaign' }, { id: 'normativas_mod', label: 'Normativas', checked: true, icon: 'gavel' }, { id: 'gamificacao_mod', label: 'Gamificação', checked: true, icon: 'sports_esports' }, { id: 'ranking_geral', label: 'Ranking geral', checked: false, icon: 'leaderboard' }, { id: 'ranking_diretoria', label: 'Ranking por diretoria', checked: false, icon: 'leaderboard' }, { id: 'ranking_subdiretoria', label: 'Ranking por sub-diretoria', checked: false, icon: 'leaderboard' }, { id: 'ranking_area', label: 'Ranking por área', checked: false, icon: 'leaderboard' }, { id: 'ranking_lideranca', label: 'Ranking por liderança', checked: false, icon: 'leaderboard' } ]; const outrasConfig = [ { id: 'cat_padrao', label: 'Categorias Padrão', checked: true }, { id: 'bloq_rematricula', label: 'Bloqueio de Rematrícula', checked: true, description: 'Ative esta opção para impedir que usuários se matriculem mais de uma vez na mesma trilha ou missão. Este bloqueio impede novas rematrículas, mas não afeta matrículas existentes realizadas antes da ativação desta função. As rematrículas anteriores continuarão válidas e não serão excluídas automaticamente.' } ]; const exibicaoConteudos = [ { id: 'ex_matr', label: 'Matriculada', checked: false }, { id: 'ex_inic', label: 'Iniciada', checked: false }, { id: 'ex_final', label: 'Finalizada', checked: true }, { id: 'ex_desist', label: 'Desistiu', checked: true, negative: true },  { id: 'ex_reprov', label: 'Reprovada', checked: true, negative: true }, { id: 'ex_expir', label: 'Expirada', checked: true, negative: true }, { id: 'ex_inativa', label: 'Inativa', checked: true, negative: true }, { id: 'ex_agconf', label: 'Ag. confirm', checked: true, negative: true }, { id: 'ex_recus', label: 'Recusada', checked: true, negative: true }, { id: 'ex_reqprazo', label: 'Req. novo prazo', checked: true, negative: true }, { id: 'ex_agaprov', label: 'Ag. Aprovação', checked: true, negative: true } ]; let html = `<div class="general-settings-grid"> <div class="settings-column"> <div class="settings-block"> <h3>Ativar/Desativar Módulos</h3>`; modulos.forEach(mod => { html += `<div class="setting-item"> <label for="toggle-${mod.id}"> ${mod.icon ? `<span class="material-symbols-outlined">${mod.icon}</span>` : ''} ${mod.label} </label> <label class="toggle-switch"> <input type="checkbox" id="toggle-${mod.id}" ${mod.checked ? 'checked' : ''}> <span class="slider"></span> </label> </div>`; }); html += `</div> </div> <div class="settings-column"> <div class="settings-block"> <h3>Outras configurações</h3>`; outrasConfig.forEach(conf => { html += `<div class="setting-item"> <label for="toggle-${conf.id}">${conf.label}</label> <label class="toggle-switch"> <input type="checkbox" id="toggle-${conf.id}" ${conf.checked ? 'checked' : ''}> <span class="slider"></span> </label> </div> ${conf.description ? `<p class="description" style="margin-top: 8px; padding-left:0;">${conf.description}</p>` : ''}`; }); html += `</div> <div class="settings-block"> <h3>Exibição de Conteúdos</h3> <p class="description">Personalize a página de missões configurando quais tipos serão exibidos aos usuários:</p>`; exibicaoConteudos.forEach(ex => { html += `<div class="setting-item"> <label for="toggle-${ex.id}">${ex.label}</label> <label class="toggle-switch ${ex.negative ? 'negative' : ''}"> <input type="checkbox" id="toggle-${ex.id}" ${ex.checked ? 'checked' : ''}> <span class="slider"></span> </label> </div>`; }); html += `</div> </div> <div class="settings-column"> <div class="settings-block"> <h3>Performance mínima para aprovação</h3> <p class="description">Configure a performance mínima para aprovação e geração de certificado de uma missão. Novos valores só serão refletidos à novas matrículas concluídas.</p> <div class="form-group"> <input type="number" id="performanceMin" value="76" min="0" max="100"> <small>Informe um valor entre 0% e 100%</small> </div> <div class="form-actions"> <button class="btn btn-primary" id="savePerformance">Salvar</button> </div> </div> <div class="settings-block"> <h3>Meta para conclusão das missões</h3> <p class="description">Defina o valor base para a data meta de conclusão dos cursos em sua workspace.</p> <div class="form-group"> <input type="text" id="metaConclusao" value="55 dias(s)"> </div> </div> </div> </div>`; return html; }
+renderGeneralSettings = function() {
+    const modulos = [
+        { id: 'dashboard', label: 'Dashboard', checked: true, icon: 'dashboard' },
+        { id: 'trilhas', label: 'Trilhas', checked: true, icon: 'signpost' },
+        { id: 'missoes', label: 'Missões', checked: true, icon: 'school' },
+        { id: 'eventos', label: 'Eventos', checked: true, icon: 'event' },
+        { id: 'pulses', label: 'Pulses', checked: true, icon: 'campaign' },
+        { id: 'normativas_mod', label: 'Normativas', checked: true, icon: 'gavel' },
+        { id: 'gamificacao_mod', label: 'Gamificação', checked: true, icon: 'sports_esports' },
+        { id: 'ranking_geral', label: 'Ranking geral', checked: false, icon: 'leaderboard' },
+        { id: 'ranking_diretoria', label: 'Ranking por diretoria', checked: false, icon: 'leaderboard' },
+        { id: 'ranking_subdiretoria', label: 'Ranking por sub-diretoria', checked: false, icon: 'leaderboard' },
+        { id: 'ranking_area', label: 'Ranking por área', checked: false, icon: 'leaderboard' },
+        { id: 'ranking_lideranca', label: 'Ranking por liderança', checked: false, icon: 'leaderboard' }
+    ];
+    const outrasConfig = [
+        { id: 'cat_padrao', label: 'Categorias Padrão', checked: true },
+        { id: 'bloq_rematricula', label: 'Bloqueio de Rematrícula', checked: true, description: 'Ative esta opção para impedir que usuários se matriculem mais de uma vez na mesma trilha ou missão. Este bloqueio impede novas rematrículas, mas não afeta matrículas existentes realizadas antes da ativação desta função. As rematrículas anteriores continuarão válidas e não serão excluídas automaticamente.' }
+    ];
+    const exibicaoConteudos = [
+        { id: 'ex_matr', label: 'Matriculada', checked: false },
+        { id: 'ex_inic', label: 'Iniciada', checked: false },
+        { id: 'ex_final', label: 'Finalizada', checked: true },
+        { id: 'ex_desist', label: 'Desistiu', checked: true, negative: true },
+        { id: 'ex_reprov', label: 'Reprovada', checked: true, negative: true },
+        { id: 'ex_expir', label: 'Expirada', checked: true, negative: true },
+        { id: 'ex_inativa', label: 'Inativa', checked: true, negative: true },
+        { id: 'ex_agconf', label: 'Ag. confirm', checked: true, negative: true },
+        { id: 'ex_recus', label: 'Recusada', checked: true, negative: true },
+        { id: 'ex_reqprazo', label: 'Req. novo prazo', checked: true, negative: true },
+        { id: 'ex_agaprov', label: 'Ag. Aprovação', checked: true, negative: true }
+    ];
+    let html = `<div class="general-settings-grid"> <div class="settings-column"> <div class="settings-block"> <h3>Ativar/Desativar Módulos</h3>`;
+    modulos.forEach(mod => {
+        html += `<div class="setting-item"> <label for="toggle-${mod.id}"> ${mod.icon ? `<span class="material-symbols-outlined">${mod.icon}</span>` : ''} ${mod.label} </label> <label class="toggle-switch"> <input type="checkbox" id="toggle-${mod.id}" ${mod.checked ? 'checked' : ''}> <span class="slider"></span> </label> </div>`;
+    });
+    html += `</div> </div> <div class="settings-column"> <div class="settings-block"> <h3>Outras configurações</h3>`;
+    outrasConfig.forEach(conf => {
+        html += `<div class="setting-item"> <label for="toggle-${conf.id}">${conf.label}</label> <label class="toggle-switch"> <input type="checkbox" id="toggle-${conf.id}" ${conf.checked ? 'checked' : ''}> <span class="slider"></span> </label> </div> ${conf.description ? `<p class="description" style="margin-top: 8px; padding-left:0;">${conf.description}</p>` : ''}`;
+    });
+    html += `</div> <div class="settings-block"> <h3>Exibição de Conteúdos</h3> <p class="description">Personalize a página de missões configurando quais tipos serão exibidos aos usuários:</p>`;
+    exibicaoConteudos.forEach(ex => {
+        html += `<div class="setting-item"> <label for="toggle-${ex.id}">${ex.label}</label> <label class="toggle-switch ${ex.negative ? 'negative' : ''}"> <input type="checkbox" id="toggle-${ex.id}" ${ex.checked ? 'checked' : ''}> <span class="slider"></span> </label> </div>`;
+    });
+    html += `</div> </div> <div class="settings-column"> <div class="settings-block"> <h3>Performance mínima para aprovação</h3> <p class="description">Configure a performance mínima para aprovação e geração de certificado de uma missão. Novos valores só serão refletidos à novas matrículas concluídas.</p> <div class="form-group"> <input type="number" id="performanceMin" value="76" min="0" max="100"> <small>Informe um valor entre 0% e 100%</small> </div> <div class="form-actions"> <button class="btn btn-primary" id="savePerformance">Salvar</button> </div> </div> <div class="settings-block"> <h3>Meta para conclusão das missões</h3> <p class="description">Defina o valor base para a data meta de conclusão dos cursos em sua workspace.</p> <div class="form-group"> <input type="text" id="metaConclusao" value="55 dias(s)"> </div> </div> </div> </div>`;
+    return html;
+}
 
 // --- Configurações: Tabs internas ---
 function renderConfiguracoesTabs(activeTab = 'geral') {
@@ -585,7 +721,7 @@ function renderConfiguracoesComplementos() {
             itens: [
                 { tipo: 'integracao', nome: 'Senior', descricao: 'A integração Senior oferece uma plataforma unificada para comunicação e colaboração, combinando bate-papo, videoconferências,...', logo: 'https://seeklogo.com/images/S/senior-logo-6B1B1B1B1B-seeklogo.com.png', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'ADP', descricao: 'Com a integração ADP, você terá acesso a um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Simplifique o...', logo: 'https://cdn.worldvectorlogo.com/logos/adp-2.svg', acao: 'Solicitar integração', link: '#', toggle: false },
-                { tipo: 'integracao', nome: 'GUPY', descricao: 'A integração Gupy oferece um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Melhore o processo de...', logo: 'https://play-lh.googleusercontent.com/1QnQh6Qw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQ=w240-h480-rw', acao: 'Solicitar integração', link: '#', toggle: false },
+                { tipo: 'integracao', nome: 'GUPY', descricao: 'A integração Gupy oferece um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Melhore o processo de...', logo: 'https://play-lh.googleusercontent.com/1QnQh6Qw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQ=w240-h480-rw', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'Solides', descricao: 'A integração Solides simplifica a gestão de pessoas com um serviço de mensagens instantâneas multi plataforma baseado na...', logo: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'Convenia', descricao: 'A integração Convenia oferece um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Gerencie folhas de...', logo: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'Domínio', descricao: 'Com a integração Domínio, você terá acesso a um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Simplifique a...', logo: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png', acao: 'Solicitar integração', link: '#', toggle: false },
