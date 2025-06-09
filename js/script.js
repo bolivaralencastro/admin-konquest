@@ -145,7 +145,8 @@ const sectionIcons = {
     transferencias: 'rocket_launch'
 };
 // Colunas ativas previamente para cursos
-let visibleColumnsState = visibleColumnsState || {};
+// Inicialização do estado das colunas visíveis
+let visibleColumnsState = {};
 visibleColumnsState.cursos = {
     titulo: true,
     categoria: true,
@@ -719,7 +720,7 @@ function renderConfiguracoesComplementos() {
         {
             titulo: 'Gestão de Pessoas',
             itens: [
-                { tipo: 'integracao', nome: 'Senior', descricao: 'A integração Senior oferece uma plataforma unificada para comunicação e colaboração, combinando bate-papo, videoconferências,...', logo: 'https://seeklogo.com/images/S/senior-logo-6B1B1B1B1B-seeklogo.com.png', acao: 'Solicitar integração', link: '#', toggle: false },
+                { tipo: 'integracao', nome: 'Senior', descricao: 'A integração Senior oferece uma plataforma unificada para comunicação e colaboração, combinando bate-papo, videoconferências,...', logo: 'https://seeklogo.com/images/S/senior-logo-6B1B1B1B1B1B-seeklogo.com.png', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'ADP', descricao: 'Com a integração ADP, você terá acesso a um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Simplifique o...', logo: 'https://cdn.worldvectorlogo.com/logos/adp-2.svg', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'GUPY', descricao: 'A integração Gupy oferece um serviço de mensagens instantâneas multi plataforma baseado na nuvem. Melhore o processo de...', logo: 'https://play-lh.googleusercontent.com/1QnQh6Qw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQw1kQ=w240-h480-rw', acao: 'Solicitar integração', link: '#', toggle: false },
                 { tipo: 'integracao', nome: 'Solides', descricao: 'A integração Solides simplifica a gestão de pessoas com um serviço de mensagens instantâneas multi plataforma baseado na...', logo: 'https://cdn-icons-png.flaticon.com/512/5968/5968705.png', acao: 'Solicitar integração', link: '#', toggle: false },
