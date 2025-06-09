@@ -183,35 +183,63 @@ function computeDashboardStats() {
 
 function renderDashboard() {
     const stats = computeDashboardStats();
+
+    // Metadados para os cards de estatística, incluindo ícones e cores
+    const cardMetaData = [
+        { title: "Total de alunos inscritos", value: stats.totalAlunos, icon: 'group', bgColor: 'rgba(138, 43, 226, 0.1)', iconColor: 'var(--primary-color)' },
+        { title: "Total de matrículas", value: stats.totalMatriculas, icon: 'assignment_turned_in', bgColor: 'rgba(52, 152, 219, 0.1)', iconColor: '#3498db' },
+        { title: "Matrículas concluídas", value: stats.totalMatriculasConcluidas, icon: 'check_circle', bgColor: 'rgba(46, 204, 113, 0.1)', iconColor: '#2ecc71' },
+        { title: "Matrículas em andamento", value: stats.matriculasEmAndamento, icon: 'hourglass_top', bgColor: 'rgba(241, 196, 15, 0.1)', iconColor: '#f1c40f' },
+        { title: "Cursos criados", value: stats.totalCursos, icon: 'school', bgColor: 'rgba(230, 126, 34, 0.1)', iconColor: '#e67e22' },
+        { title: "Cursos com matrículas em andamento", value: stats.cursosComMatriculasEmAndamento, icon: 'play_circle', bgColor: 'rgba(155, 89, 182, 0.1)', iconColor: '#9b59b6' },
+        { title: "Matrículas em cursos normativos", value: stats.totalNormativosMatriculas, icon: 'gavel', bgColor: 'rgba(52, 73, 94, 0.1)', iconColor: '#34495e' },
+        { title: "Acessos na semana", value: stats.acessosTotaisSemana, icon: 'visibility', bgColor: 'rgba(26, 188, 156, 0.1)', iconColor: '#1abc9c' }
+    ];
+
+    // HTML para os cards de estatística
+    const statCardsHtml = cardMetaData.map(card => `
+        <div class="dashboard-card">
+            <div class="card-icon-wrapper" style="background-color: ${card.bgColor};">
+                <span class="material-symbols-outlined" style="color: ${card.iconColor};">${card.icon}</span>
+            </div>
+            <div class="card-details">
+                <h3>${card.title}</h3>
+                <p class="card-value">${card.value}</p>
+            </div>
+        </div>
+    `).join('');
+
+    // HTML para os cards de lista (Ranking e Acessos)
     const rankingItems = stats.ranking
-        .map((r, i) => `<li>${i + 1}. ${r.nome} - ${r.pontos} pts</li>`) 
+        .map((r, i) => `<li>${i + 1}. ${r.nome} - ${r.pontos} pts</li>`)
         .join('');
     const acessosItems = stats.acessosPorDia
-        .map(d => `<li>${d.dia}: ${d.acessos}</li>`) 
+        .map(d => `<li>${d.dia}: ${d.acessos}</li>`)
         .join('');
+
+    const listCardsHtml = `
+        <div class="dashboard-card list-card ranking-card">
+            <h3>Ranking Gamificação</h3>
+            <ol class="dashboard-ranking">${rankingItems}</ol>
+        </div>
+        <div class="dashboard-card list-card accesses-card">
+            <h3>Acessos - Última Semana</h3>
+            <ul class="dashboard-accesses">${acessosItems}</ul>
+        </div>
+    `;
+
+    // Montagem final do conteúdo do dashboard
     const cards = `
         <div class="dashboard-grid">
-            <div class="dashboard-card"><h3>Total de alunos inscritos</h3><p>${stats.totalAlunos}</p></div>
-            <div class="dashboard-card"><h3>Total de matrículas</h3><p>${stats.totalMatriculas}</p></div>
-            <div class="dashboard-card"><h3>Matrículas concluídas</h3><p>${stats.totalMatriculasConcluidas}</p></div>
-            <div class="dashboard-card"><h3>Matrículas em andamento</h3><p>${stats.matriculasEmAndamento}</p></div>
-            <div class="dashboard-card"><h3>Cursos criados</h3><p>${stats.totalCursos}</p></div>
-            <div class="dashboard-card"><h3>Cursos com matrículas em andamento</h3><p>${stats.cursosComMatriculasEmAndamento}</p></div>
-            <div class="dashboard-card"><h3>Matrículas em cursos normativos</h3><p>${stats.totalNormativosMatriculas}</p></div>
-            <div class="dashboard-card"><h3>Acessos na semana</h3><p>${stats.acessosTotaisSemana}</p></div>
-            <div class="dashboard-card ranking-card list-card">
-                <h3>Ranking Gamificação</h3>
-                <ol class="dashboard-ranking">${rankingItems}</ol>
-            </div>
-            <div class="dashboard-card accesses-card list-card">
-                <h3>Acessos - Última Semana</h3>
-                <ul class="dashboard-accesses">${acessosItems}</ul>
-            </div>
+            ${statCardsHtml}
+            ${listCardsHtml}
         </div>`;
+
     return `
         <div class="content-header-no-tabs"><span class="section-title">Dashboard</span></div>
         ${cards}`;
 }
+
 
 function filterCurrentTable(sectionId) {
     let tableId = sectionId;
