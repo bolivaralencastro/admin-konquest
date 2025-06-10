@@ -431,8 +431,27 @@ function renderDashboard() {
     iconColor: '#1abc9c'
   }];
 
-  // HTML para os cards de estatística
-  const statCardsHtml = cardMetaData.map(card => `
+  // Separate "Acessos na semana" card
+  const acessosSemanaCardMeta = cardMetaData.find(card => card.title === "Acessos na semana");
+
+  // HTML for the full-width accesses chart placeholder
+  const acessosChartHtml = `
+        <div class="dashboard-section full-width-chart">
+            <h3>Acessos - Última Semana</h3>
+            <div class="chart-placeholder">
+                <!-- Placeholder for the bar chart -->
+                <p>Gráfico de barra de acessos (implementação futura)</p>
+                <p>Total de acessos na semana: ${stats.acessosTotaisSemana}</p>
+                 <ul>
+                    ${stats.acessosPorDia.map(d => `<li>${d.dia}: ${d.acessos}</li>`).join('')}
+                 </ul>
+            </div>
+        </div>
+    `;
+
+  // HTML for the remaining statistic cards
+  const remainingStatCardsMeta = cardMetaData.filter(card => card.title !== "Acessos na semana");
+  const remainingStatCardsHtml = remainingStatCardsMeta.map(card => `
         <div class="dashboard-card">
             <div class="card-icon-wrapper" style="background-color: ${card.bgColor};">
                 <span class="material-symbols-outlined" style="color: ${card.iconColor};">${card.icon}</span>
@@ -444,23 +463,14 @@ function renderDashboard() {
         </div>
     `).join('');
 
-  // HTML para os cards de lista (Ranking e Acessos)
+  // HTML for the Ranking Gamificação list card
   const rankingItems = stats.ranking
     .map((r, i) => `<li>${i + 1}. ${r.nome} - ${r.pontos} pts</li>`)
     .join('');
-  const acessosItems = stats.acessosPorDia
-    .map(d => `<li>${d.dia}: ${d.acessos}</li>`)
-    .join('');
-
-  const listCardsHtml = `
-        <div class="dashboard-card list-card ranking-card">
+  const rankingCardHtml = `
+        <div class="dashboard-card list-card">
             <h3>Ranking Gamificação</h3>
-            <ol class="dashboard-ranking">${rankingItems}</ol>
-        </div>
-        <div class="dashboard-card list-card accesses-card">
-            <h3>Acessos - Última Semana</h3>
-            <ul class="dashboard-accesses">${acessosItems}</ul>
-        </div>
+            <ol class="dashboard-list">${rankingItems}</ol>
     `;
 
   // Montagem final do conteúdo do dashboard
@@ -472,7 +482,26 @@ function renderDashboard() {
 
   return `
         <div class="content-header-no-tabs"><span class="section-title">Dashboard</span></div>
-        ${cards}`;
+        ${acessosChartHtml}
+        <div class="dashboard-cards-grid">
+            <div class="dashboard-section">
+                <h3>Matrículas</h3>
+                <div class="dashboard-section-cards">
+                    ${remainingStatCardsHtml.split('</div>').filter(cardHtml => cardHtml.includes('Matrículas')).join('</div>')}
+                </div>
+            </div>
+            <div class="dashboard-section">
+                <h3>Cursos</h3>
+                 <div class="dashboard-section-cards">
+                    ${remainingStatCardsHtml.split('</div>').filter(cardHtml => cardHtml.includes('Cursos')).join('</div>')}
+                </div>
+            </div>
+            <div class="dashboard-section">
+                <h3>Gamificação</h3>
+                 <div class="dashboard-section-cards">
+                   ${rankingCardHtml}
+                </div>
+            </div>`;
 }
 
 

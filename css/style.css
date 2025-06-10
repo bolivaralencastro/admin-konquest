@@ -646,17 +646,14 @@ td.cell-actions {
   padding-bottom: 8px !important;
 }
 
-/* Dashboard */
-.dashboard-grid {
-  display: grid;
-  /* Ajustado para minmax(260px, 1fr) para acomodar melhor o novo layout e padding */
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px; /* Aumenta o espaçamento entre os cards */
+/* Dashboard Layout */
+.dashboard-chart-container {
+  width: 100%;
   padding: 24px;
 }
 
 .dashboard-card {
-  background: var(--content-bg); /* Usa a cor de fundo do conteúdo (geralmente branco) */
+  background: var(--content-bg);
   border: none; /* Remove a borda, a sombra dará o efeito de elevação */
   border-radius: 12px; /* Cantos mais arredondados, como no exemplo */
   padding: 20px;
@@ -709,10 +706,36 @@ td.cell-actions {
   line-height: 1.1;
 }
 
-/* Estilos específicos para os cards de lista (Ranking, Acessos) */
+.dashboard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Adjusted min-width for 3 columns */
+  gap: 24px;
+  padding: 0 24px 24px 24px; /* Padding adjusted */
+}
+
+/* Section titles within the dashboard cards grid */
+.dashboard-cards-grid h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  margin: 0 0 16px 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+  grid-column: 1 / -1; /* Span across all columns */
+}
+
+/* Specific sections for layout control */
+.dashboard-section-matriculas,
+.dashboard-section-cursos,
+.dashboard-section-gamificacao {
+  display: contents; /* Allow direct children to participate in the grid */
+}
+
+
+/* Styles for specific cards within the new grid */
 .dashboard-card.list-card {
   flex-direction: column; /* Conteúdo empilhado verticalmente */
-  align-items: flex-start; /* Alinha todo o conteúdo da lista à esquerda */
+  align-items: flex-start;
   gap: 10px; /* Espaço interno para listas */
   grid-column: span 2; /* Faz com que os cards de lista ocupem mais espaço na grade se desejado */
 }
@@ -731,7 +754,7 @@ td.cell-actions {
   margin: 0;
   font-size: 0.9rem;
   width: 100%;
-  color: var(--text-color); /* Cor do texto da lista */
+  color: var(--text-color);
 }
 
 .dashboard-card.list-card li {
@@ -740,15 +763,10 @@ td.cell-actions {
 }
 
 .dashboard-ranking,
-.dashboard-accesses {
-  margin: 0; /* Remove margens antigas se houver */
-}
+.dashboard-accesses { margin: 0; }
 
-/* Removido .dashboard-section pois não era usado na renderização. */
-/* .dashboard-card p (regra genérica antiga) foi implicitamente substituída/ajustada
-   pela especificidade de .card-value e os estilos de lista.
-   Se você tiver um .dashboard-card p que não seja .card-value e não esteja em uma lista,
-   pode precisar de estilo específico. */
+/* Responsive adjustments for the grid */
+@media (max-width: 900px) { .dashboard-cards-grid { grid-template-columns: 1fr; } }
 
 ```
 
